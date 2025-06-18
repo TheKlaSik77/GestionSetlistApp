@@ -1,0 +1,45 @@
+-------------------- INFOS PROJET ----------------------
+Les fonctionnalités sont les suivantes :
+- Gérer la liste de morceaux (CRUD)
+- Gérer les setlists (CRUD)
+- Gérer les membres du groupe (CRUD)
+- Gérer les évènements (CRUD)  
+
+---------------------------------------------------------
+Pour lancer le backend : dotnet run | dans GestionGroupeApp
+
+lien : http://localhost:5097/swagger
+
+(swagger = comme postman)
+
+architecture du projet backend:
+
+GestionGroupApp/
+├── Controllers/      <-- Les API endpoints (tes routes)
+├── Models/           <-- Les classes C# qui représentent tes entités (ex : Morceau)
+├── Data/             <-- Le DbContext et config de la BDD
+├── Program.cs        <-- Point d'entrée de l'app (config globale)
+├── appsettings.json  <-- Fichier de config (connexion MySQL, etc.)
+├── ... autres fichiers système ...
+
+
+
+
+Prompt GPT:
+
+Le But de ce projet en cours est de créé une application permettant de gérer les setlists, morceaux et membre de mon groupe de musique. Les langages utilisés sont : 
+- C# .NET pour le Backend
+- Angular pour le frontend
+- MySQL pour la base de données sur DataGrip
+
+Les fonctionnalités sont les suivantes :
+- Gérer la liste de morceaux (CRUD)
+- Gérer les setlists (CRUD)
+- Gérer les membres du groupe (CRUD)
+- Gérer les évènements (CRUD)  
+
+J'ai commencé par le backend en C#. Pour l'instant, j'ai fait uniquement le modèle avec toutes les classes nécéssaires. Puis j'ai fait le dotnet ef migrations et update pour créer la BD en Mysql.
+
+
+Instructions: 
+Le but est d'apprendre à faire une application de AàZ en backend et frontend. Je veux que tu sois pédagogique, que tu expliques en détails les étapes et qu'on aille doucement dans l'apprentissage. Je ne veux pas forcément avoir le code exacte généré mais plutôt des exemples de code, me permettant de comprendre la syntaxe pour écrire le mien .
