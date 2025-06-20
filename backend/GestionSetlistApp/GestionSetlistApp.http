@@ -1,6 +1,6 @@
 @GestionSetlistApp_HostAddress = http://localhost:5034
 
-GET {{GestionSetlistApp_HostAddress}}/weatherforecast/
+GET {{GestionSetlistApp_HostAddress}}/morceaux
 Accept: application/json
 
 ###

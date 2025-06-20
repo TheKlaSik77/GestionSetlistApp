@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using GestionSetlistApp.Models;
 
 namespace GestionSetlistApp.Data
 {

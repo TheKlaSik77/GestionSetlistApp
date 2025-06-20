@@ -1,21 +1,30 @@
 using Microsoft.AspNetCore.Mvc;
 using GestionSetlistApp.Data;
 using GestionSetlistApp.Models;
+using GestionSetlistApp.Services;
+using GestionSetlistApp.DTOs.MorceauxDTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionSetlistApp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class MorceauxController : ControllerBase
+    [Route("/morceaux")]
+    // /morceaux
+    public class MorceauxController(MorceauxService service) : ControllerBase
     {
-        private readonly GestionSetlistDbContext _context;
+        private readonly MorceauxService _service = service;
 
-        public MorceauxController(GestionSetlistDbContext context)
+        [HttpGet]
+
+        public ActionResult<string> GetAll()
         {
-            _context = context;
+            var result = _service.GetAll();
+            return Ok(result);
         }
-
-        // Les méthodes CRUD viendront ici
+        // public async Task<ActionResult<IEnumerable<LivreReadDTO>>> GetAll()
+        // {
+        //     var livres = await _livreService.GetAllAsync();
+        //     return Ok(livres);
+        // }
     }
 }

@@ -109,3 +109,4 @@ C:\Users\Kylian Lasik\Documents\Projets Perso\Gestion Setlist\backend\GestionSet
 C:\Users\Kylian Lasik\Documents\Projets Perso\Gestion Setlist\backend\GestionSetlistApp\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Kylian Lasik\Documents\Projets Perso\Gestion Setlist\backend\GestionSetlistApp\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Kylian Lasik\Documents\Projets Perso\Gestion Setlist\backend\GestionSetlistApp\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\Kylian Lasik\Documents\Projets Perso\Gestion Setlist\backend\GestionSetlistApp\obj\Debug\net8.0\GestionSetlistApp.sourcelink.json
