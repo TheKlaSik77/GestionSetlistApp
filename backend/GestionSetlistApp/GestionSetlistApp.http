@@ -3,4 +3,27 @@
 GET {{GestionSetlistApp_HostAddress}}/morceaux
 Accept: application/json
 
-###
+### Ajout d'un Element
+POST {{GestionSetlistApp_HostAddress}}/morceaux/addOne
+Content-Type: application/json
+
+{
+    "Titre" : "Devolution",
+    "Artiste" : "Starset"
+}
+
+
+### Ajout de plusieurs Elements
+POST {{GestionSetlistApp_HostAddress}}/morceaux/addMany
+Content-Type: application/json
+
+[
+    {
+        "Titre" : "Little Wing",
+        "Artiste" : "Jimi Hendrix"
+    },
+    {
+        "Titre" : "Back in Black",
+        "Artiste" : "ACDC"
+    }
+]

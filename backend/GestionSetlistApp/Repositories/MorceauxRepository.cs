@@ -1,10 +1,13 @@
 using GestionSetlistApp.Models;
+using GestionSetlistApp.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestionSetlistApp.Repositories
 {
-    public class MorceauxRepository : IMorceauxRepository
+    public class MorceauxRepository(GestionSetlistDbContext dbContext) : IMorceauxRepository
     {
         // Ici on implémente le dbContext
+        private readonly GestionSetlistDbContext _dbContext = dbContext;
         public List<Morceau> Morceaux = new List<Morceau>
             {
                 new Morceau
@@ -59,11 +62,26 @@ namespace GestionSetlistApp.Repositories
                 }
             };
 
-        public List<Morceau> GetAll()
+        public async Task<List<Morceau>> GetAllAsync()
         {
-            return Morceaux;
+            return await _dbContext.Morceaux
+            .Include(m => m.MorceauSetlists)
+            .ThenInclude(ms => ms.Setlist)
+            .ToListAsync();
         }
 
+        public async Task AddMorceauAsync(Morceau morceau)
+        {
+            await _dbContext.Morceaux.AddAsync(morceau);
+            await _dbContext.SaveChangesAsync();
+        }
 
+        public async Task DeleteAllAsync()
+        {
+            var morceauxASupp = _dbContext.Morceaux.ToList();
+            _dbContext.Morceaux.RemoveRange(morceauxASupp);
+            await _dbContext.SaveChangesAsync();
+            await _dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE morceaux AUTO_INCREMENT = 1;");
+        }
     }
 }

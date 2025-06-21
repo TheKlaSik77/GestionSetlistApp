@@ -1,15 +1,17 @@
-namespace GestionSetlistApp.Models
+using System.ComponentModel.DataAnnotations;
+
+namespace GestionSetlistApp.DTOs.MorceauxDTOs
 {
-    public class Morceau
+    public record MorceauxCreateDTO
     {
-        public int MorceauId { get; set; }
+        [Required]
         public required string Titre { get; set; }
+        [Required]
         public required string Artiste { get; set; }
         public string? Album { get; set; }
         public string? LienYoutube { get; set; }
         public string? LienSongsterr { get; set; }
         public int DureeMorceau { get; set; }
-
-        public ICollection<MorceauSetlist> MorceauSetlists { get; set; } = new List<MorceauSetlist>();
     }
 }
+

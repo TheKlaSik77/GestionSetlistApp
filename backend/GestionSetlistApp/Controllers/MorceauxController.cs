@@ -10,21 +10,39 @@ namespace GestionSetlistApp.Controllers
     [ApiController]
     [Route("/morceaux")]
     // /morceaux
-    public class MorceauxController(MorceauxService service) : ControllerBase
+    public class MorceauxController(IMorceauxService service) : ControllerBase
     {
-        private readonly MorceauxService _service = service;
+        private readonly IMorceauxService _service = service;
 
         [HttpGet]
 
-        public ActionResult<string> GetAll()
+        public async Task<ActionResult<IEnumerable<MorceauxReadDTO>>> GetAllAsync()
         {
-            var result = _service.GetAll();
+            var result = await _service.GetAllAsync();
             return Ok(result);
         }
-        // public async Task<ActionResult<IEnumerable<LivreReadDTO>>> GetAll()
+
+        [HttpPost("addOne")]
+        public async Task<IActionResult> AddMorceauAsync([FromBody] MorceauxCreateDTO morceauxCreateDTO)
+        {
+
+            await _service.AddMorceauAsync(morceauxCreateDTO);
+            return Ok("Morceau Ajouté");
+        }
+
+        // [HttpPost("addMany")]
+        // public async Task<IActionResult> AddMorceauxAsync([FromBody] IEnumerable<MorceauxCreateDTO> morceauxCreateDTO)
         // {
-        //     var livres = await _livreService.GetAllAsync();
-        //     return Ok(livres);
+
+        //     await _service.AddMorceauxSync(morceauxCreateDTO);
+        //     return Ok("Morceaux Ajoutés");
         // }
+
+        [HttpDelete("deleteAll")]
+        public async Task<IActionResult> DeleteAllAsync()
+        {
+            await _service.DeleteAllAsync();
+            return Ok("Tous les morceaux ont bien été supprimés");
+        }
     }
 }

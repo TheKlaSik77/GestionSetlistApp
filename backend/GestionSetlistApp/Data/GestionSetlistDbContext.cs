@@ -5,7 +5,10 @@ namespace GestionSetlistApp.Data
 {
     public class GestionSetlistDbContext : DbContext
     {
-        public GestionSetlistDbContext(DbContextOptions<GestionSetlistDbContext> options) : base(options) { }
+        public GestionSetlistDbContext(DbContextOptions<GestionSetlistDbContext> options) : base(options)
+        {
+            
+        }
 
         public DbSet<Evenement> Evenements { get; set; }
         public DbSet<Membre> Membres { get; set; }

@@ -19,7 +19,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<MorceauxService>();
+builder.Services.AddScoped<IMorceauxService,MorceauxService>();
 builder.Services.AddScoped<IMorceauxRepository,MorceauxRepository>();
 
 var app = builder.Build();

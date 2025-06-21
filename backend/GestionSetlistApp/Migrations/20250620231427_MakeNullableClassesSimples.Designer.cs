@@ -4,6 +4,7 @@ using GestionSetlistApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionSetlistApp.Migrations
 {
     [DbContext(typeof(GestionSetlistDbContext))]
-    partial class GestionSetlistDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250620231427_MakeNullableClassesSimples")]
+    partial class MakeNullableClassesSimples
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,6 +67,7 @@ namespace GestionSetlistApp.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Role")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("InstrumentId");
@@ -160,7 +164,7 @@ namespace GestionSetlistApp.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("DureeMorceau")
+                    b.Property<int?>("DureeMorceau")
                         .HasColumnType("int");
 
                     b.Property<string>("LienSongsterr")
@@ -241,7 +245,7 @@ namespace GestionSetlistApp.Migrations
                         .IsRequired();
 
                     b.HasOne("GestionSetlistApp.Models.Membre", "Membre")
-                        .WithMany("MembreEvenements")
+                        .WithMany("Evenements")
                         .HasForeignKey("MembreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -292,13 +296,13 @@ namespace GestionSetlistApp.Migrations
             modelBuilder.Entity("GestionSetlistApp.Models.MorceauSetlist", b =>
                 {
                     b.HasOne("GestionSetlistApp.Models.Morceau", "Morceau")
-                        .WithMany("MorceauSetlists")
+                        .WithMany("Setlists")
                         .HasForeignKey("MorceauId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GestionSetlistApp.Models.Setlist", "Setlist")
-                        .WithMany("MorceauSetlists")
+                        .WithMany("Morceaux")
                         .HasForeignKey("SetlistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -320,16 +324,16 @@ namespace GestionSetlistApp.Migrations
 
             modelBuilder.Entity("GestionSetlistApp.Models.Membre", b =>
                 {
-                    b.Navigation("Instruments");
+                    b.Navigation("Evenements");
 
-                    b.Navigation("MembreEvenements");
+                    b.Navigation("Instruments");
 
                     b.Navigation("MembreSetlist");
                 });
 
             modelBuilder.Entity("GestionSetlistApp.Models.Morceau", b =>
                 {
-                    b.Navigation("MorceauSetlists");
+                    b.Navigation("Setlists");
                 });
 
             modelBuilder.Entity("GestionSetlistApp.Models.Setlist", b =>
@@ -338,7 +342,7 @@ namespace GestionSetlistApp.Migrations
 
                     b.Navigation("MembreSetlist");
 
-                    b.Navigation("MorceauSetlists");
+                    b.Navigation("Morceaux");
                 });
 #pragma warning restore 612, 618
         }
