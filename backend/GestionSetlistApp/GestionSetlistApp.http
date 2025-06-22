@@ -34,11 +34,6 @@ Content-Type: application/json
     }
 ]
 
-
 ### Get Morceau avec Id
 GET {{GestionSetlistApp_HostAddress}}/morceaux/2
-Accept: application/json
-
-### test api deezer
-GET {{GestionSetlistApp_HostAddress}}/morceaux/testDeezerApi
 Accept: application/json

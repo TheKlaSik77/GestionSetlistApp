@@ -22,7 +22,7 @@ namespace GestionSetlistApp.Controllers
             return Ok(result);
         }
 
-        [HttpPost("addOne")]
+        [HttpPost]
         public async Task<IActionResult> AddMorceauAsync([FromBody] MorceauxCreateDTO morceauCreateDTO)
         {
 
@@ -30,7 +30,7 @@ namespace GestionSetlistApp.Controllers
             return Ok("Morceau Ajouté");
         }
 
-        [HttpPost("addMany")]
+        [HttpPost("batch")]
         public async Task<IActionResult> AddMorceauxAsync([FromBody] IEnumerable<MorceauxCreateDTO> morceauxCreateDTO)
         {
             await _service.AddMorceauxAsync(morceauxCreateDTO);
