@@ -19,7 +19,11 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddControllers();
-builder.Services.AddScoped<IMorceauxService,MorceauxService>();
+
+builder.Services.AddScoped<IMorceauxService, MorceauxService>();
+builder.Services.AddScoped<IDeezerAPIService, DeezerAPIService>();
+builder.Services.AddHttpClient<IDeezerAPIService, DeezerAPIService>();
+
 builder.Services.AddScoped<IMorceauxRepository,MorceauxRepository>();
 
 var app = builder.Build();
@@ -37,3 +41,4 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+

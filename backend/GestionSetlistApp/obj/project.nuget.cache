@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "gacjVgqgh8E=",
+  "dgSpecHash": "0DcunqXEmqI=",
   "success": true,
   "projectFilePath": "C:\\Users\\Kylian Lasik\\Documents\\Projets Perso\\Gestion Setlist\\backend\\GestionSetlistApp\\GestionSetlistApp.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Kylian Lasik\\.nuget\\packages\\fuzzysharp\\2.0.2\\fuzzysharp.2.0.2.nupkg.sha512",
     "C:\\Users\\Kylian Lasik\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Kylian Lasik\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.17\\microsoft.aspnetcore.openapi.8.0.17.nupkg.sha512",
     "C:\\Users\\Kylian Lasik\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",

@@ -10,7 +10,6 @@ namespace GestionSetlistApp.DTOs.MorceauxDTOs
         public required string Artiste { get; set; }
         public string? Album { get; set; }
         public string? LienYoutube { get; set; }
-        public string? LienSongsterr { get; set; }
         public int DureeMorceau { get; set; }
     }
 }

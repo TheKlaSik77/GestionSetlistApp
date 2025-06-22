@@ -3,6 +3,12 @@
 GET {{GestionSetlistApp_HostAddress}}/morceaux
 Accept: application/json
 
+
+### Suppresion de tous les morceaux
+DELETE {{GestionSetlistApp_HostAddress}}/morceaux/deleteAll
+Accept:  application/json
+
+
 ### Ajout d'un Element
 POST {{GestionSetlistApp_HostAddress}}/morceaux/addOne
 Content-Type: application/json
@@ -27,3 +33,12 @@ Content-Type: application/json
         "Artiste" : "ACDC"
     }
 ]
+
+
+### Get Morceau avec Id
+GET {{GestionSetlistApp_HostAddress}}/morceaux/2
+Accept: application/json
+
+### test api deezer
+GET {{GestionSetlistApp_HostAddress}}/morceaux/testDeezerApi
+Accept: application/json

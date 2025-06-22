@@ -2,19 +2,22 @@ using GestionSetlistApp.DTOs.MorceauxDTOs;
 using GestionSetlistApp.DTOs.MorceauSetlistsDTOs;
 using GestionSetlistApp.Repositories;
 using GestionSetlistApp.Models;
+using GestionSetlistApp.DTOs.DeezerAPIDTOs;
 
 namespace GestionSetlistApp.Services
 {
-    public class MorceauxService(IMorceauxRepository morceauxRepository) : IMorceauxService
+    public class MorceauxService(IMorceauxRepository morceauxRepository, IDeezerAPIService deezerAPIService) : IMorceauxService
     {
         private readonly IMorceauxRepository _repository = morceauxRepository;
+        private readonly IDeezerAPIService _deezerAPIService = deezerAPIService;
 
         public async Task<List<MorceauxReadDTO>> GetAllAsync()
         {
             // On passe la liste de Morceaux récupérés dans la base de données en DTO
             List<Morceau> morceaux = await _repository.GetAllAsync();
+
             List<MorceauxReadDTO> morceauxDTO = morceaux
-            .Select(m => new MorceauxReadDTO(m.Titre, m.Artiste, m.Album, m.LienYoutube, m.LienSongsterr, m.DureeMorceau,
+            .Select(m => new MorceauxReadDTO(m.MorceauId, m.Titre, m.Artiste, m.Album, m.LienYoutube, m.DureeMorceau,
             m.MorceauSetlists?
                 .Select(ms => new MorceauSetlistsReadDTO(
                     ms.MorceauId,
@@ -26,25 +29,54 @@ namespace GestionSetlistApp.Services
             return morceauxDTO;
         }
 
-        public async Task AddMorceauAsync(MorceauxCreateDTO morceauxDTO)
+        public async Task AddMorceauAsync(MorceauxCreateDTO morceauDTO)
         {
-            // On récupère un DTO, on en fait un Morceau (model) et on le met dans AddAsync du Repository
-            Morceau morceau = new Morceau
+            DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
+                
+            var morceau = new Morceau
             {
-                Titre = morceauxDTO.Titre,
-                Artiste = morceauxDTO.Artiste,
-                Album = morceauxDTO.Album,
-                LienYoutube = morceauxDTO.LienYoutube,
-                LienSongsterr = morceauxDTO.LienSongsterr,
-                DureeMorceau = morceauxDTO.DureeMorceau
+                Titre = morceauDTO.Titre,
+                Artiste = morceauDTO.Artiste,
+                Album = deezerAPIEntiteDTO?.Album.Titre ?? "Inconnu",
+                LienYoutube = morceauDTO.LienYoutube,
+                DureeMorceau = deezerAPIEntiteDTO?.DureeMorceau ?? 0
             };
             await _repository.AddMorceauAsync(morceau);
+        }
+
+        public async Task AddMorceauxAsync(IEnumerable<MorceauxCreateDTO> morceauxCreateDTO)
+        {
+            List<Morceau> morceaux = [];
+            foreach (var morceauDTO in morceauxCreateDTO)
+            {
+                DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
+                
+                var morceau = new Morceau
+                {
+                    Titre = morceauDTO.Titre,
+                    Artiste = morceauDTO.Artiste,
+                    Album = deezerAPIEntiteDTO?.Album.Titre ?? "Inconnu",
+                    LienYoutube = morceauDTO.LienYoutube,
+                    DureeMorceau = deezerAPIEntiteDTO?.DureeMorceau ?? 0
+                };
+
+                morceaux.Add(morceau);
+            }
+            await _repository.AddMorceauxAsync(morceaux);
+
+        }
+
+        public async Task<Morceau> GetMorceauAsync(int morceauId)
+        {
+            return await _repository.GetMorceauAsync(morceauId);
         }
 
         public async Task DeleteAllAsync()
         {
             await _repository.DeleteAllAsync();
         }
+        
+        
     }
 }
     

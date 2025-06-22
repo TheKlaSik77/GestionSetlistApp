@@ -163,9 +163,6 @@ namespace GestionSetlistApp.Migrations
                     b.Property<int>("DureeMorceau")
                         .HasColumnType("int");
 
-                    b.Property<string>("LienSongsterr")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("LienYoutube")
                         .HasColumnType("longtext");
 
