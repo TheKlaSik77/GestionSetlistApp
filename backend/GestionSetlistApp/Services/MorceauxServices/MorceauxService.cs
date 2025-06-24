@@ -2,9 +2,9 @@ using GestionSetlistApp.DTOs.MorceauxDTOs;
 using GestionSetlistApp.DTOs.MorceauSetlistsDTOs;
 using GestionSetlistApp.Repositories;
 using GestionSetlistApp.Models;
-using GestionSetlistApp.DTOs.DeezerAPIDTOs;
+using GestionSetlistApp.DTOs.MorceauxDTOs.DeezerAPIDTOs;
 
-namespace GestionSetlistApp.Services
+namespace GestionSetlistApp.Services.MorceauxServices
 {
     public class MorceauxService(IMorceauxRepository morceauxRepository, IDeezerAPIService deezerAPIService) : IMorceauxService
     {
@@ -17,7 +17,7 @@ namespace GestionSetlistApp.Services
             List<Morceau> morceaux = await _repository.GetAllAsync();
 
             List<MorceauxReadDTO> morceauxDTO = morceaux
-            .Select(m => new MorceauxReadDTO(m.MorceauId, m.Titre, m.Artiste, m.Album, m.LienYoutube, m.DureeMorceau,
+            .Select(m => new MorceauxReadDTO(m.MorceauId, m.Titre, m.Artiste, m.Album, m.DureeMorceau,
             m.MorceauSetlists?
                 .Select(ms => new MorceauSetlistsReadDTO(
                     ms.MorceauId,
@@ -32,13 +32,12 @@ namespace GestionSetlistApp.Services
         public async Task AddMorceauAsync(MorceauxCreateDTO morceauDTO)
         {
             DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
-                
+
             var morceau = new Morceau
             {
                 Titre = morceauDTO.Titre,
                 Artiste = morceauDTO.Artiste,
                 Album = deezerAPIEntiteDTO?.Album.Titre ?? "Inconnu",
-                LienYoutube = morceauDTO.LienYoutube,
                 DureeMorceau = deezerAPIEntiteDTO?.DureeMorceau ?? 0
             };
             await _repository.AddMorceauAsync(morceau);
@@ -50,13 +49,12 @@ namespace GestionSetlistApp.Services
             foreach (var morceauDTO in morceauxCreateDTO)
             {
                 DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
-                
+
                 var morceau = new Morceau
                 {
                     Titre = morceauDTO.Titre,
                     Artiste = morceauDTO.Artiste,
                     Album = deezerAPIEntiteDTO?.Album.Titre ?? "Inconnu",
-                    LienYoutube = morceauDTO.LienYoutube,
                     DureeMorceau = deezerAPIEntiteDTO?.DureeMorceau ?? 0
                 };
 

@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Antiforgery;
-using GestionSetlistApp.DTOs.DeezerAPIDTOs;
+using GestionSetlistApp.DTOs.MorceauxDTOs.DeezerAPIDTOs;
 
-namespace GestionSetlistApp.Services
+namespace GestionSetlistApp.Services.MorceauxServices
 {
     public interface IDeezerAPIService
     {

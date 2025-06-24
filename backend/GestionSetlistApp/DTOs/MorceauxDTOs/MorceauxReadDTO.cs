@@ -13,13 +13,12 @@ namespace GestionSetlistApp.DTOs.MorceauxDTOs
         public int DureeMorceau { get; set; }
         public ICollection<MorceauSetlistsReadDTO>? MorceauSetlists { get; set; }
 
-        public MorceauxReadDTO(int morceauId, string titre, string artiste, string? album, string? lienYoutube, int dureeMorceau, ICollection<MorceauSetlistsReadDTO>? morceauSetlistsDTO)
+        public MorceauxReadDTO(int morceauId, string titre, string artiste, string? album, int dureeMorceau, ICollection<MorceauSetlistsReadDTO>? morceauSetlistsDTO)
         {
             MorceauId = morceauId;
             Titre = titre;
             Artiste = artiste;
             Album = album;
-            LienYoutube = lienYoutube;
             DureeMorceau = dureeMorceau;
             MorceauSetlists = morceauSetlistsDTO;
         }

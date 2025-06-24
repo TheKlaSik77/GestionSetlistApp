@@ -1,6 +1,6 @@
 using GestionSetlistApp.DTOs.MorceauxDTOs;
 using GestionSetlistApp.Models;
-namespace GestionSetlistApp.Services
+namespace GestionSetlistApp.Services.MorceauxServices
 {
     public interface IMorceauxService
     {

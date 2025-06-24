@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace GestionSetlistApp.DTOs.DeezerAPIDTOs
+namespace GestionSetlistApp.DTOs.MorceauxDTOs.DeezerAPIDTOs
 {
     public record DeezerAPIAlbumDTO
     {
