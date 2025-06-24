@@ -10,7 +10,7 @@ Accept:  application/json
 
 
 ### Ajout d'un Element
-POST {{GestionSetlistApp_HostAddress}}/morceaux/addOne
+POST {{GestionSetlistApp_HostAddress}}/morceaux
 Content-Type: application/json
 
 {
@@ -36,4 +36,8 @@ Content-Type: application/json
 
 ### Get Morceau avec Id
 GET {{GestionSetlistApp_HostAddress}}/morceaux/2
+Accept: application/json
+
+###
+GET {{GestionSetlistApp_HostAddress}}/morceaux/testYoutubeApi
 Accept: application/json

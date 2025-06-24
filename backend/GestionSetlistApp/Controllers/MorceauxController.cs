@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using GestionSetlistApp.Data;
 using GestionSetlistApp.Models;
-using GestionSetlistApp.Services;
+using GestionSetlistApp.Services.MorceauxServices;
 using GestionSetlistApp.DTOs.MorceauxDTOs;
-using GestionSetlistApp.DTOs.DeezerAPIDTOs;
+using GestionSetlistApp.DTOs.MorceauxDTOs.DeezerAPIDTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestionSetlistApp.Controllers
@@ -52,15 +52,6 @@ namespace GestionSetlistApp.Controllers
             return Ok("Tous les morceaux ont bien été supprimés");
         }
 
-
-
-
-
-        // [HttpGet("testDeezerApi")]
-        // public async Task<ActionResult<DeezerAPIEntiteDTO?>> RechercheTitreArtiste()
-        // {
-
-        //     return await _deezerAPIService.RechercherInfosParTitreEtArtiste("Que tu reviennes", "Patrick Fiori");
-        // }
+       
     }
 }
