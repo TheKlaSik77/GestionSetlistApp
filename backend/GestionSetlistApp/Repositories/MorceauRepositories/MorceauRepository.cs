@@ -2,18 +2,17 @@ using GestionSetlistApp.Models;
 using GestionSetlistApp.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace GestionSetlistApp.Repositories
+namespace GestionSetlistApp.Repositories.MorceauRepositories
 {
-    public class MorceauxRepository(GestionSetlistDbContext dbContext) : IMorceauxRepository
+    public class MorceauRepository(GestionSetlistDbContext dbContext) : IMorceauRepository
     {
         // Ici on implémente le dbContext
         private readonly GestionSetlistDbContext _dbContext = dbContext;
 
-        public async Task<List<Morceau>> GetAllAsync()
+        public async Task<IEnumerable<Morceau>> GetAllAsync()
         {
             return await _dbContext.Morceaux
             .Include(m => m.MorceauSetlists)
-            .ThenInclude(ms => ms.Setlist)
             .ToListAsync();
         }
 
@@ -42,8 +41,19 @@ namespace GestionSetlistApp.Repositories
             // morceau null si non trouvé
             var morceau = await _dbContext.Morceaux.Include(m => m.MorceauSetlists)
             .ThenInclude(ms => ms.Setlist).FirstAsync(m => m.MorceauId == morceauId);
-            
+
             return morceau;
+        }
+
+        public async Task DeleteMorceauAsync(Morceau morceau)
+        {
+            if (morceau.MorceauSetlists.Any())
+            {
+                _dbContext.MorceauSetlist.RemoveRange(morceau.MorceauSetlists);
+            }
+            _dbContext.Morceaux.Remove(morceau);
+            await _dbContext.SaveChangesAsync();
+
         }
     }
 }

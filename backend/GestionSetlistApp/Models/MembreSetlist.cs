@@ -3,8 +3,8 @@ namespace GestionSetlistApp.Models
     public class MembreSetlist
     {
         public int MembreId { get; set; }
-        public Membre Membre { get; set; } = null!;
+        public Membre? Membre { get; set; }
         public int SetlistId { get; set; }
-        public Setlist Setlist { get; set; } = null!;
+        public Setlist? Setlist { get; set; }
     }
 }

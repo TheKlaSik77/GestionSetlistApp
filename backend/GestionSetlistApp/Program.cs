@@ -1,7 +1,9 @@
 using GestionSetlistApp.Data;
-using GestionSetlistApp.Services.MorceauxServices;
-using GestionSetlistApp.Repositories;
+using GestionSetlistApp.Services.MorceauServices;
+using GestionSetlistApp.Repositories.MorceauRepositories;
 using Microsoft.EntityFrameworkCore;
+using GestionSetlistApp.Services.SetlistServices;
+using GestionSetlistApp.Repositories.SetlistRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +22,15 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
 
-builder.Services.AddScoped<IMorceauxService, MorceauxService>();
+// Morceau
+builder.Services.AddScoped<IMorceauService, MorceauService>();
 builder.Services.AddScoped<IDeezerAPIService, DeezerAPIService>();
 builder.Services.AddHttpClient<IDeezerAPIService, DeezerAPIService>();
-builder.Services.AddScoped<IMorceauxRepository,MorceauxRepository>();
+builder.Services.AddScoped<IMorceauRepository, MorceauRepository>();
+
+// Setlist
+builder.Services.AddScoped<ISetlistService, SetlistService>();
+builder.Services.AddScoped<ISetlistRepository, SetlistRepository>();
 
 var app = builder.Build();
 

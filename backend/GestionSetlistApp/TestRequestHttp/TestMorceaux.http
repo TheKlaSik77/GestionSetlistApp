@@ -1,16 +1,19 @@
 @GestionSetlistApp_HostAddress = http://localhost:5034
 
-GET {{GestionSetlistApp_HostAddress}}/morceaux
+GET {{GestionSetlistApp_HostAddress}}/morceau
 Accept: application/json
 
 
 ### Suppresion de tous les morceaux
-DELETE {{GestionSetlistApp_HostAddress}}/morceaux/deleteAll
+DELETE {{GestionSetlistApp_HostAddress}}/morceau/deleteAll
 Accept:  application/json
 
+### Suppresion de tous les morceaux
+DELETE {{GestionSetlistApp_HostAddress}}/morceau/2
+Accept:  application/json
 
 ### Ajout d'un Element
-POST {{GestionSetlistApp_HostAddress}}/morceaux
+POST {{GestionSetlistApp_HostAddress}}/morceau
 Content-Type: application/json
 
 {
@@ -20,7 +23,7 @@ Content-Type: application/json
 
 
 ### Ajout de plusieurs Elements
-POST {{GestionSetlistApp_HostAddress}}/morceaux/addMany
+POST {{GestionSetlistApp_HostAddress}}/morceau/batch
 Content-Type: application/json
 
 [
@@ -35,9 +38,9 @@ Content-Type: application/json
 ]
 
 ### Get Morceau avec Id
-GET {{GestionSetlistApp_HostAddress}}/morceaux/2
+GET {{GestionSetlistApp_HostAddress}}/morceau/2
 Accept: application/json
 
 ###
-GET {{GestionSetlistApp_HostAddress}}/morceaux/testYoutubeApi
+GET {{GestionSetlistApp_HostAddress}}/morceau/testYoutubeApi
 Accept: application/json

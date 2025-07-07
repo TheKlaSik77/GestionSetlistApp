@@ -1,9 +1,9 @@
 
 using System.Text.Json;
 using FuzzySharp;
-using GestionSetlistApp.DTOs.MorceauxDTOs.DeezerAPIDTOs;
+using GestionSetlistApp.DTOs.MorceauDTOs.DeezerAPIDTOs;
 
-namespace GestionSetlistApp.Services.MorceauxServices
+namespace GestionSetlistApp.Services.MorceauServices
 {
     public class DeezerAPIService(HttpClient httpClient) : IDeezerAPIService
     {

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace GestionSetlistApp.DTOs.MorceauxDTOs
+namespace GestionSetlistApp.DTOs.MorceauDTOs
 {
-    public record MorceauxCreateDTO
+    public record MorceauCreateDTO
     {
         [Required]
         public required string Titre { get; set; }

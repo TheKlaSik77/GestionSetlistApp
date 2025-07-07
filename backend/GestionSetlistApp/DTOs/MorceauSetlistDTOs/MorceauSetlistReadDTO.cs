@@ -1,12 +1,12 @@
-namespace GestionSetlistApp.DTOs.MorceauSetlistsDTOs
+namespace GestionSetlistApp.DTOs.MorceauSetlistDTOs
 {
-    public record MorceauSetlistsReadDTO
+    public record MorceauSetlistReadDTO
     {
         public int SetlistId { get; set; }
         public string? NomSetlist { get; set; }
         public int PositionMorceauDansSetlist { get; set; }
 
-        public MorceauSetlistsReadDTO(int setlistId, string nomSetlist, int positionMorceauDansSetlist)
+        public MorceauSetlistReadDTO(int setlistId, string nomSetlist, int positionMorceauDansSetlist)
         {
             SetlistId = setlistId;
             NomSetlist = nomSetlist;

@@ -1,35 +1,33 @@
-using GestionSetlistApp.DTOs.MorceauxDTOs;
-using GestionSetlistApp.DTOs.MorceauSetlistsDTOs;
-using GestionSetlistApp.Repositories;
+using GestionSetlistApp.DTOs.MorceauDTOs;
+using GestionSetlistApp.DTOs.MorceauSetlistDTOs;
+using GestionSetlistApp.Repositories.MorceauRepositories;
 using GestionSetlistApp.Models;
-using GestionSetlistApp.DTOs.MorceauxDTOs.DeezerAPIDTOs;
+using GestionSetlistApp.DTOs.MorceauDTOs.DeezerAPIDTOs;
 
-namespace GestionSetlistApp.Services.MorceauxServices
+namespace GestionSetlistApp.Services.MorceauServices
 {
-    public class MorceauxService(IMorceauxRepository morceauxRepository, IDeezerAPIService deezerAPIService) : IMorceauxService
+    public class MorceauService(IMorceauRepository morceauxRepository, IDeezerAPIService deezerAPIService) : IMorceauService
     {
-        private readonly IMorceauxRepository _repository = morceauxRepository;
+        private readonly IMorceauRepository _repository = morceauxRepository;
         private readonly IDeezerAPIService _deezerAPIService = deezerAPIService;
 
-        public async Task<List<MorceauxReadDTO>> GetAllAsync()
+        public async Task<List<MorceauReadDTO>> GetAllAsync()
         {
             // On passe la liste de Morceaux récupérés dans la base de données en DTO
-            List<Morceau> morceaux = await _repository.GetAllAsync();
+            IEnumerable<Morceau> morceaux = await _repository.GetAllAsync();
 
-            List<MorceauxReadDTO> morceauxDTO = morceaux
-            .Select(m => new MorceauxReadDTO(m.MorceauId, m.Titre, m.Artiste, m.Album, m.DureeMorceau,
-            m.MorceauSetlists?
-                .Select(ms => new MorceauSetlistsReadDTO(
-                    ms.MorceauId,
-                    ms.Setlist.NomSetlist,
-                    ms.Position)).ToList() ?? new()
-                ))
+            List<MorceauReadDTO> morceauxDTO = morceaux
+            .Select(m => new MorceauReadDTO(m.MorceauId, m.Titre, m.Artiste, m.Album, m.DureeMorceau,
+            m.MorceauSetlists
+                .Select(ms =>
+                    ms.SetlistId
+                ).ToList()))
             .ToList();
 
             return morceauxDTO;
         }
 
-        public async Task AddMorceauAsync(MorceauxCreateDTO morceauDTO)
+        public async Task AddMorceauAsync(MorceauCreateDTO morceauDTO)
         {
             DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
 
@@ -43,10 +41,10 @@ namespace GestionSetlistApp.Services.MorceauxServices
             await _repository.AddMorceauAsync(morceau);
         }
 
-        public async Task AddMorceauxAsync(IEnumerable<MorceauxCreateDTO> morceauxCreateDTO)
+        public async Task AddMorceauxAsync(IEnumerable<MorceauCreateDTO> morceauDTOs)
         {
             List<Morceau> morceaux = [];
-            foreach (var morceauDTO in morceauxCreateDTO)
+            foreach (var morceauDTO in morceauDTOs)
             {
                 DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
 
@@ -74,6 +72,16 @@ namespace GestionSetlistApp.Services.MorceauxServices
             await _repository.DeleteAllAsync();
         }
         
+        public async Task DeleteMorceauAsync(int morceauId)
+        {
+            {
+                var morceau = await _repository.GetMorceauAsync(morceauId);
+                if (morceau is null)
+                    throw new KeyNotFoundException();
+
+                await _repository.DeleteMorceauAsync(morceau);
+            }
+        }
         
     }
 }

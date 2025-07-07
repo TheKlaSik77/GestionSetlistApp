@@ -8,6 +8,6 @@ namespace GestionSetlistApp.Models
         public string? Album { get; set; }
         public int DureeMorceau { get; set; }
 
-        public ICollection<MorceauSetlist> MorceauSetlists { get; set; } = new List<MorceauSetlist>();
+        public ICollection<MorceauSetlist> MorceauSetlists { get; set; } = [];
     }
 }

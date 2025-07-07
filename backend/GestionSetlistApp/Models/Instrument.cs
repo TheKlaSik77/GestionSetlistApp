@@ -6,6 +6,6 @@ namespace GestionSetlistApp.Models
         public required string Nom { get; set; }
         // Role (Lead / Rythmique etc...)
         public string? Role { get; set; }
-        public ICollection<Membre>? Membres { get; set; } = new List<Membre>();
+        public ICollection<Membre> Membres { get; set; } = [];
     }
 }
