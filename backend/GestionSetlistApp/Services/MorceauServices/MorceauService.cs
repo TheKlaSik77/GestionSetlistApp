@@ -27,7 +27,7 @@ namespace GestionSetlistApp.Services.MorceauServices
             return morceauxDTO;
         }
 
-        public async Task AddMorceauAsync(MorceauCreateDTO morceauDTO)
+        public async Task<Morceau> AddMorceauAsync(MorceauCreateDTO morceauDTO)
         {
             DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
 
@@ -39,6 +39,7 @@ namespace GestionSetlistApp.Services.MorceauServices
                 DureeMorceau = deezerAPIEntiteDTO?.DureeMorceau ?? 0
             };
             await _repository.AddMorceauAsync(morceau);
+            return morceau;
         }
 
         public async Task AddMorceauxAsync(IEnumerable<MorceauCreateDTO> morceauDTOs)
@@ -57,12 +58,13 @@ namespace GestionSetlistApp.Services.MorceauServices
                 };
 
                 morceaux.Add(morceau);
+        
             }
             await _repository.AddMorceauxAsync(morceaux);
 
         }
 
-        public async Task<Morceau> GetMorceauAsync(int morceauId)
+        public async Task<Morceau?> GetMorceauAsync(int morceauId)
         {
             return await _repository.GetMorceauAsync(morceauId);
         }
@@ -79,7 +81,7 @@ namespace GestionSetlistApp.Services.MorceauServices
                 if (morceau is null)
                     throw new KeyNotFoundException();
 
-                await _repository.DeleteMorceauAsync(morceau);
+                await _repository.DeleteMorceauAsync(morceauId);
             }
         }
         

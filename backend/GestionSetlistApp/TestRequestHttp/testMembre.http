@@ -1,0 +1,27 @@
+@GestionSetlistApp_HostAddress = http://localhost:5034/api/membre
+
+### Get All Membres
+GET {{GestionSetlistApp_HostAddress}}
+Accept: application/json
+
+### Get Membre
+GET {{GestionSetlistApp_HostAddress}}/2
+Accept: application/json
+
+### Delete Membre
+DELETE {{GestionSetlistApp_HostAddress}}/7
+Accept: application/json
+
+### Delete All Membres
+DELETE {{GestionSetlistApp_HostAddress}}
+Accept: application/json
+
+### Ajout d'un membre
+POST {{GestionSetlistApp_HostAddress}}
+Content-Type: application/json
+
+{
+    "Nom" : "OUI",
+    "Prenom" : "Angéline",
+    "DateNaissance" : "2001-11-13"
+}

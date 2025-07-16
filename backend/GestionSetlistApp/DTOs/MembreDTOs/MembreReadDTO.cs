@@ -8,15 +8,20 @@ namespace GestionSetlistApp.DTOs.MembreDTOs
         public string? Nom { get; set; }
         public string? Prenom { get; set; }
         public int Age { get; set; }
-        public ICollection<MembreSetlistReadDTO> MembreSetlists { get; set; }
+        public ICollection<int> ListeSetlists { get; set; }
+        public ICollection<int> ListeInstruments { get; set; }
+        public ICollection<int> ListeEvenements { get; set; }
 
-        public MembreReadDTO(int membreId, string nom, string prenom, int age, ICollection<MembreSetlistReadDTO> membreSetlists)
+
+        public MembreReadDTO(int membreId, string nom, string prenom, int age, ICollection<int> listeSetlists, ICollection<int> listeInstruments, ICollection<int> listeEvenements)
         {
             MembreId = membreId;
             Nom = nom;
             Prenom = prenom;
             Age = age;
-            MembreSetlists = membreSetlists ?? [];
+            ListeSetlists = listeSetlists ?? [];
+            ListeInstruments = listeInstruments ?? [];
+            ListeEvenements = listeEvenements ?? [];
         }
     }
 }

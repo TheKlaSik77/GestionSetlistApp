@@ -4,6 +4,8 @@ using GestionSetlistApp.Repositories.MorceauRepositories;
 using Microsoft.EntityFrameworkCore;
 using GestionSetlistApp.Services.SetlistServices;
 using GestionSetlistApp.Repositories.SetlistRepositories;
+using GestionSetlistApp.Services.MembreServices;
+using GestionSetlistApp.Repositories.MembreRepositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,11 @@ builder.Services.AddScoped<IMorceauRepository, MorceauRepository>();
 // Setlist
 builder.Services.AddScoped<ISetlistService, SetlistService>();
 builder.Services.AddScoped<ISetlistRepository, SetlistRepository>();
+
+// Membre
+builder.Services.AddScoped<IMembreService, MembreService>();
+builder.Services.AddScoped<IMembreRepository, MembreRepository>();
+
 
 var app = builder.Build();
 

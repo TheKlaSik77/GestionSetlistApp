@@ -8,8 +8,8 @@ Accept: application/json
 DELETE {{GestionSetlistApp_HostAddress}}/morceau/deleteAll
 Accept:  application/json
 
-### Suppresion de tous les morceaux
-DELETE {{GestionSetlistApp_HostAddress}}/morceau/2
+### Suppresion d'un morceau
+DELETE {{GestionSetlistApp_HostAddress}}/morceau/3
 Accept:  application/json
 
 ### Ajout d'un Element

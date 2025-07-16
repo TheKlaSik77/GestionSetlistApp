@@ -7,17 +7,12 @@ namespace GestionSetlistApp.DTOs.MembreSetlistDTOs
     public record MembreSetlistReadDTO
     {
         public int MembreId { get; set; }
-        public MembreReadDTO? Membre { get; set; }
-        public int SetlistId { get; set; }
-        public SetlistReadDTO? Setlist { get; set; }
+        public string NomInstrument { get; set; }
 
-        public MembreSetlistReadDTO(int membreId, MembreReadDTO membre, int setlistId, SetlistReadDTO setlist)
+        public MembreSetlistReadDTO(int membreId, string nomInstrument)
         {
             MembreId = membreId;
-            Membre = membre;
-            SetlistId = setlistId;
-            Setlist = setlist;
-
+            NomInstrument = nomInstrument;
         }
     }
 }

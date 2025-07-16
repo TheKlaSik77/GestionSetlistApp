@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace GestionSetlistApp.Controllers
 {
     [ApiController]
-    [Route("/morceau")]
+    [Route("/api/[controller]")]
     public class MorceauController(IMorceauService service) : ControllerBase
     {
         private readonly IMorceauService _service = service;
@@ -23,18 +23,24 @@ namespace GestionSetlistApp.Controllers
         }
 
         [HttpGet("{morceauId}")]
-        public async Task<ActionResult<Morceau>> GetMorceauAsync(int morceauId)
+        public async Task<ActionResult<MorceauReadDTO>> GetMorceauAsync(int morceauId)
         {
-            var morceau = await _service.GetMorceauAsync(morceauId);
-            return morceau != null ? Ok(morceau) : NotFound("Morceau Invalide");
+            try
+            {
+                var morceau = await _service.GetMorceauAsync(morceauId);
+                return Ok(morceau);
+            }
+            catch(KeyNotFoundException)
+            {
+                return NotFound("Morceau Invalide");
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> AddMorceauAsync([FromBody] MorceauCreateDTO morceauCreateDTO)
-        {
-
-            await _service.AddMorceauAsync(morceauCreateDTO);
-            return Ok("Morceau Ajouté");
+        {          
+            var nouveauMorceau = await _service.AddMorceauAsync(morceauCreateDTO);
+            return CreatedAtAction(nameof(GetMorceauAsync), new { morceauId = nouveauMorceau.MorceauId }, nouveauMorceau); 
         }
 
         [HttpPost("batch")]

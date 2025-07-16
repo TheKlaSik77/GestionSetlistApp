@@ -43,3 +43,11 @@ J'ai commencé par le backend en C#. Pour l'instant, j'ai fait uniquement le mod
 
 Instructions: 
 Le but est d'apprendre à faire une application de AàZ en backend et frontend. Je veux que tu sois pédagogique, que tu expliques en détails les étapes et qu'on aille doucement dans l'apprentissage. Je ne veux pas forcément avoir le code exacte généré mais plutôt des exemples de code, me permettant de comprendre la syntaxe pour écrire le mien .
+
+
+Ordre : 
+Pour Setlist :
+- Créer un membre [Fait]
+- (Modifier age avec date de naissance et calcul) [Fait]
+- Delete Membre + Delete Tous les membres + ajout en masse
+- Créer un evenement (On peut lui attribuer une setlist)

@@ -2,9 +2,9 @@ namespace GestionSetlistApp.Models
 {
     public class MembreJoueDe
     {
-        public int MembreId { get; set; }
-        public Membre? Membre { get; set; }
-        public int InstrumentId { get; set; }
-        public Instrument? Instrument { get; set; }
+        public required int MembreId { get; set; }
+        public required Membre? Membre { get; set; }
+        public required int InstrumentId { get; set; }
+        public required Instrument? Instrument { get; set; }
     }
 }

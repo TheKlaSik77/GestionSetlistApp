@@ -41,7 +41,7 @@ namespace GestionSetlistApp.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("SetlistId")
+                    b.Property<int>("SetlistId")
                         .HasColumnType("int");
 
                     b.HasKey("EvenementId");
@@ -63,9 +63,6 @@ namespace GestionSetlistApp.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("longtext");
-
                     b.HasKey("InstrumentId");
 
                     b.ToTable("Instruments");
@@ -81,6 +78,9 @@ namespace GestionSetlistApp.Migrations
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("DateNaissance")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int?>("InstrumentId")
                         .HasColumnType("int");
@@ -198,7 +198,7 @@ namespace GestionSetlistApp.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("SetlistId"));
 
-                    b.Property<int?>("DureeSetlist")
+                    b.Property<int>("DureeSetlist")
                         .HasColumnType("int");
 
                     b.Property<string>("NomSetlist")
@@ -214,7 +214,9 @@ namespace GestionSetlistApp.Migrations
                 {
                     b.HasOne("GestionSetlistApp.Models.Setlist", "Setlist")
                         .WithMany("Evenements")
-                        .HasForeignKey("SetlistId");
+                        .HasForeignKey("SetlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Setlist");
                 });

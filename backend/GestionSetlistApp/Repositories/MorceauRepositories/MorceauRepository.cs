@@ -36,17 +36,16 @@ namespace GestionSetlistApp.Repositories.MorceauRepositories
             await _dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE morceaux AUTO_INCREMENT = 1;");
         }
 
-        public async Task<Morceau> GetMorceauAsync(int morceauId)
+        public async Task<Morceau?> GetMorceauAsync(int morceauId)
         {
             // morceau null si non trouvé
-            var morceau = await _dbContext.Morceaux.Include(m => m.MorceauSetlists)
-            .ThenInclude(ms => ms.Setlist).FirstAsync(m => m.MorceauId == morceauId);
-
-            return morceau;
+            return await _dbContext.Morceaux.Include(m => m.MorceauSetlists)
+            .ThenInclude(ms => ms.Setlist).FirstOrDefaultAsync(m => m.MorceauId == morceauId);
         }
 
-        public async Task DeleteMorceauAsync(Morceau morceau)
+        public async Task DeleteMorceauAsync(int morceauId)
         {
+            var morceau = await _dbContext.Morceaux.FirstAsync(m => m.MorceauId == morceauId);
             if (morceau.MorceauSetlists.Any())
             {
                 _dbContext.MorceauSetlist.RemoveRange(morceau.MorceauSetlists);
