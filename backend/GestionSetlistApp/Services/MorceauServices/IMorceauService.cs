@@ -5,7 +5,7 @@ namespace GestionSetlistApp.Services.MorceauServices
     public interface IMorceauService
     {
         public Task<List<MorceauReadDTO>> GetAllAsync();
-        public Task<Morceau> AddMorceauAsync(MorceauCreateDTO morceauDTO);
+        public Task<MorceauReadDTO> AddMorceauAsync(MorceauCreateDTO morceauDTO);
         public Task AddMorceauxAsync(IEnumerable<MorceauCreateDTO> morceauDTOs);
         public Task<Morceau?> GetMorceauAsync(int morceauId);
         public Task DeleteAllAsync();

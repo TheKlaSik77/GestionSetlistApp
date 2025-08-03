@@ -1,0 +1,50 @@
+@GestionSetlistApp_HostAddress = http://localhost:5034/api/morceau
+
+### Get all morceaux
+GET {{GestionSetlistApp_HostAddress}}
+Accept: application/json
+
+
+### Get Morceau avec Id
+GET {{GestionSetlistApp_HostAddress}}/1
+Accept: application/json
+
+
+### Ajout d'un Element
+POST {{GestionSetlistApp_HostAddress}}
+Content-Type: application/json
+
+{
+    "Titre" : "Devolution",
+    "Artiste" : "Starset"
+}
+
+
+### Ajout de plusieurs Elements
+POST {{GestionSetlistApp_HostAddress}}/batch
+Content-Type: application/json
+
+[
+    {
+        "Titre" : "Little Wing",
+        "Artiste" : "Jimi Hendrix"
+    },
+    {
+        "Titre" : "Back in Black",
+        "Artiste" : "ACDC"
+    }
+]
+
+
+### Suppresion de tous les morceaux
+DELETE {{GestionSetlistApp_HostAddress}}
+Accept:  application/json
+
+
+### Suppresion d'un morceau
+DELETE {{GestionSetlistApp_HostAddress}}/3
+Accept:  application/json
+
+
+
+

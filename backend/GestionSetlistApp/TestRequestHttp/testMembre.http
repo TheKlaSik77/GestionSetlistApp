@@ -25,3 +25,44 @@ Content-Type: application/json
     "Prenom" : "Angéline",
     "DateNaissance" : "2001-11-13"
 }
+
+### Ajout de membres
+POST {{GestionSetlistApp_HostAddress}}/batch
+Content-Type: application/json
+
+[
+    {
+        "Nom" : "Lasik",
+        "Prenom" : "Kylian",
+        "DateNaissance" : "2001-07-01"
+    },
+    {
+        "Nom" : "Delcros",
+        "Prenom" : "Angéline",
+        "DateNaissance" : "2001-11-13"
+    },
+    {
+        "Nom" : "Doe",
+        "Prenom" : "John",
+        "DateNaissance" : "1987-02-05"
+    }
+]
+
+### Update d'un membre
+PUT {{GestionSetlistApp_HostAddress}}/2
+Content-Type: application/json
+
+{
+    "Nom" : "Lasik",
+    "Prenom" : "Kylian",
+    "DateNaissance" : "2001-07-01"
+}
+
+### Patch d'un membre
+PATCH {{GestionSetlistApp_HostAddress}}/1
+Content-Type: application/json
+
+{
+    "Nom" : "Delcros"
+}
+

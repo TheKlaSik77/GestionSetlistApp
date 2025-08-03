@@ -11,17 +11,15 @@ namespace GestionSetlistApp.DTOs.EvenementDTOs
         public DateTime Date { get; set; }
         public string? Lieu { get; set; }
         public int SetlistId { get; set; }
-        public SetlistReadDTO? Setlist { get; set; }
-        public ICollection<MembreEvenementReadDTO> ListeMembres { get; set; }
+        public ICollection<int> ListeMembres { get; set; }
 
-        public EvenementReadDTO(int evenementId, string nom, DateTime date, string lieu, int setlistId, SetlistReadDTO setlist, ICollection<MembreEvenementReadDTO> listeMembres)
+        public EvenementReadDTO(int evenementId, string nom, DateTime date, string lieu, int setlistId, ICollection<int> listeMembres)
         {
             EvenementId = evenementId;
             Nom = nom;
             Date = date;
             Lieu = lieu;
             SetlistId = setlistId;
-            Setlist = setlist;
             ListeMembres = listeMembres ?? [];
 
         }

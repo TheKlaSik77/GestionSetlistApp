@@ -8,9 +8,9 @@ namespace GestionSetlistApp.Services.MembreServices
     {
         private readonly IMembreRepository _repository = repository;
 
-        public async Task<IEnumerable<MembreReadDTO>> GetAllAsync()
+        public async Task<IEnumerable<MembreReadDTO>> GetAllMembresAsync()
         {
-            IEnumerable<Membre> membres = await _repository.GetAllAsync();
+            IEnumerable<Membre> membres = await _repository.GetAllMembresAsync();
             IEnumerable<MembreReadDTO> membresDTO = membres
             .Select(m => new MembreReadDTO(m.MembreId,
             m.Nom,
@@ -38,7 +38,7 @@ namespace GestionSetlistApp.Services.MembreServices
 
             membre.CalculerAge();
             await _repository.AddMembreAsync(membre);
-            Console.WriteLine($"\n\n\nMembre ajouté avec l'id {membre.MembreId}\n\n\n");
+            
             return new MembreReadDTO(
                 membre.MembreId,
                 membre.Nom,
@@ -60,6 +60,36 @@ namespace GestionSetlistApp.Services.MembreServices
                 membre.Instruments.Select(i => i.InstrumentId).ToList(),
                 membre.MembreEvenements.Select(me => me.EvenementId).ToList()
             );                 
+        }
+
+        public async Task UpdateMembreAsync(int membreId, MembreCreateDTO membreCreateDTO)
+        {
+            var membre = await _repository.GetMembreAsync(membreId) ?? throw new KeyNotFoundException();
+
+            membre.Nom = membreCreateDTO.Nom;
+            membre.Prenom = membreCreateDTO.Prenom;
+            membre.DateNaissance = membreCreateDTO.DateNaissance;
+            
+            membre.CalculerAge();
+            await _repository.UpdateMembreAsync(membre);
+        }
+        public async Task PatchMembreAsync(int membreId, MembrePatchDTO membrePatchDTO)
+        {
+            var membre = await _repository.GetMembreAsync(membreId) ?? throw new KeyNotFoundException();
+            if (!string.IsNullOrEmpty(membrePatchDTO.Nom))
+            {
+                membre.Nom = membrePatchDTO.Nom;
+            }
+            if (!string.IsNullOrEmpty(membrePatchDTO.Prenom))
+            {
+                membre.Prenom = membrePatchDTO.Prenom;
+            }
+            if (membrePatchDTO.DateNaissance != null)
+            {
+                membre.DateNaissance = membrePatchDTO.DateNaissance.Value;
+                membre.CalculerAge();
+            }
+            await _repository.UpdateMembreAsync(membre);
         }
         public async Task DeleteMembreAsync(int membreId)
         {

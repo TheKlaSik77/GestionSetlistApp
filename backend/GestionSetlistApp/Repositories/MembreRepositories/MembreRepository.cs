@@ -8,7 +8,7 @@ namespace GestionSetlistApp.Repositories.MembreRepositories
     {
         private readonly GestionSetlistDbContext _dbContext = dbContext;
 
-        public async Task<IEnumerable<Membre>> GetAllAsync()
+        public async Task<IEnumerable<Membre>> GetAllMembresAsync()
         {
             return await _dbContext.Membres
             .Include(s => s.MembreSetlist)
@@ -26,6 +26,13 @@ namespace GestionSetlistApp.Repositories.MembreRepositories
         {
             return await _dbContext.Membres.Include(m => m.MembreEvenements).Include(m => m.Instruments).Include(m => m.MembreSetlist).FirstOrDefaultAsync(m => m.MembreId == membreId); 
         }
+
+        public async Task UpdateMembreAsync(Membre membre)
+        {
+            _dbContext.Membres.Update(membre);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task DeleteAllAsync()
         {
             var membresASupp = _dbContext.Membres.ToList();
@@ -38,7 +45,7 @@ namespace GestionSetlistApp.Repositories.MembreRepositories
             _dbContext.Membres.RemoveRange(membresASupp);
             await _dbContext.SaveChangesAsync();
             await _dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE membres AUTO_INCREMENT = 1;");
-            
+
         }
         public async Task DeleteMembreAsync(int membreId)
         {

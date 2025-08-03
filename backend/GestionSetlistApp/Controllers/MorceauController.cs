@@ -22,7 +22,7 @@ namespace GestionSetlistApp.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{morceauId}")]
+        [HttpGet("{morceauId}", Name = "GetMorceauAsync")]
         public async Task<ActionResult<MorceauReadDTO>> GetMorceauAsync(int morceauId)
         {
             try
@@ -40,7 +40,7 @@ namespace GestionSetlistApp.Controllers
         public async Task<IActionResult> AddMorceauAsync([FromBody] MorceauCreateDTO morceauCreateDTO)
         {          
             var nouveauMorceau = await _service.AddMorceauAsync(morceauCreateDTO);
-            return CreatedAtAction(nameof(GetMorceauAsync), new { morceauId = nouveauMorceau.MorceauId }, nouveauMorceau); 
+            return CreatedAtRoute("GetMorceauAsync", new { morceauId = nouveauMorceau.MorceauId }, nouveauMorceau); 
         }
 
         [HttpPost("batch")]
@@ -51,7 +51,7 @@ namespace GestionSetlistApp.Controllers
         }
 
 
-        [HttpDelete("deleteAll")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteAllAsync()
         {
             await _service.DeleteAllAsync();

@@ -4,15 +4,9 @@ namespace GestionSetlistApp.DTOs.MembreDTOs
 {
     public record MembreCreateDTO
     {
-        public string Nom { get; set; }
-        public string Prenom { get; set; }
-        public DateTime DateNaissance { get; set; }
+        public required string Nom { get; set; }
+        public required string Prenom { get; set; }
+        public required DateTime DateNaissance { get; set; }
 
-        public MembreCreateDTO(string nom, string prenom, DateTime dateNaissance)
-        {
-            Nom = nom;
-            Prenom = prenom;
-            DateNaissance = dateNaissance;
-        }
     }
 }

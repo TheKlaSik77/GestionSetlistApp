@@ -1,0 +1,5 @@
+@GestionSetlistApp_HostAddress = http://localhost:5034/api/evenement
+
+### Get All Evenement
+GET {{GestionSetlistApp_HostAddress}}
+Accept: application/json

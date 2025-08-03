@@ -5,10 +5,12 @@ namespace GestionSetlistApp.Services.MembreServices
 {
     public interface IMembreService
     {
-        public Task<IEnumerable<MembreReadDTO>> GetAllAsync();
+        public Task<IEnumerable<MembreReadDTO>> GetAllMembresAsync();
         public Task<MembreReadDTO> AddMembreAsync(MembreCreateDTO membreDTO);
         public Task<MembreReadDTO> GetMembreAsync(int membreId);
-        Task DeleteMembreAsync(int membreId);
-        Task DeleteAllAsync();
+        public Task UpdateMembreAsync(int membreId, MembreCreateDTO membreCreateDTO);
+        public Task PatchMembreAsync(int membreId, MembrePatchDTO membrePatchDTO);
+        public Task DeleteMembreAsync(int membreId);
+        public Task DeleteAllAsync();
     }
 }

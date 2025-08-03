@@ -27,7 +27,7 @@ namespace GestionSetlistApp.Services.MorceauServices
             return morceauxDTO;
         }
 
-        public async Task<Morceau> AddMorceauAsync(MorceauCreateDTO morceauDTO)
+        public async Task<MorceauReadDTO> AddMorceauAsync(MorceauCreateDTO morceauDTO)
         {
             DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
 
@@ -39,7 +39,14 @@ namespace GestionSetlistApp.Services.MorceauServices
                 DureeMorceau = deezerAPIEntiteDTO?.DureeMorceau ?? 0
             };
             await _repository.AddMorceauAsync(morceau);
-            return morceau;
+            return new MorceauReadDTO(
+                morceau.MorceauId,
+                morceau.Titre,
+                morceau.Artiste,
+                morceau.Album,
+                morceau.DureeMorceau,
+                morceau.MorceauSetlists.Select(ms => ms.SetlistId).ToList()
+            );
         }
 
         public async Task AddMorceauxAsync(IEnumerable<MorceauCreateDTO> morceauDTOs)

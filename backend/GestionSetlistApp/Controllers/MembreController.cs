@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GestionSetlistApp.Services.MembreServices;
 using GestionSetlistApp.DTOs.MembreDTOs;
+using GestionSetlistApp.Models;
 
 namespace GestionSetlistApp.Controllers
 {
@@ -11,13 +12,13 @@ namespace GestionSetlistApp.Controllers
         private readonly IMembreService _service = service;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MembreReadDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<MembreReadDTO>>> GetAllMembresAsync()
         {
-            var results = await _service.GetAllAsync();
-            return Ok(results);
+            var membres = await _service.GetAllMembresAsync();
+            return Ok(membres);
         }
 
-        [HttpGet("{membreId}")]
+        [HttpGet("{membreId}", Name = "GetMembreAsync")]
         public async Task<ActionResult<MembreReadDTO>> GetMembreAsync(int membreId)
         {
             try
@@ -38,11 +39,61 @@ namespace GestionSetlistApp.Controllers
             try
             {
                 var nouveauMembre = await _service.AddMembreAsync(membreCreateDTO);
-                return CreatedAtAction(nameof(GetMembreAsync), new { membreId = nouveauMembre.MembreId });
+                //Console.WriteLine($"\n\n\nMembre ajouté avec l'id {nouveauMembre.MembreId}\n\n\n");
+                return CreatedAtRoute("GetMembreAsync", new { membreId = nouveauMembre.MembreId }, nouveauMembre);
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("batch")]
+        public async Task<IActionResult> AddMembresAsync([FromBody] IEnumerable<MembreCreateDTO> membreCreateDTO)
+        {
+            try
+            {
+                var membresAjoutes = new List<MembreReadDTO>();
+                foreach (var nouveauMembre in membreCreateDTO)
+                {
+                    var membreAjoute = await _service.AddMembreAsync(nouveauMembre);
+                    membresAjoutes.Add(membreAjoute);
+
+                }
+                return Created("", membresAjoutes);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{membreId}")]
+        public async Task<IActionResult> UpdateMembreAsync(int membreId, [FromBody] MembreCreateDTO membreCreateDTO)
+        {
+            try
+            {
+                await _service.UpdateMembreAsync(membreId, membreCreateDTO);
+                return NoContent();
+
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Membre Invalide");
+            }
+        }
+
+        [HttpPatch("{membreId}")]
+        public async Task<IActionResult> PatchMembreAsync(int membreId, [FromBody] MembrePatchDTO membrePatchDTO)
+        {
+            try
+            {
+                await _service.PatchMembreAsync(membreId, membrePatchDTO);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Membre Invalide");
             }
         }
 
