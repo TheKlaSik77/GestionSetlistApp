@@ -48,6 +48,9 @@ Le but est d'apprendre à faire une application de AàZ en backend et frontend. 
 Ordre : 
 Pour Setlist :
 - Membres [Fait]
-- Créer un evenement (On peut lui attribuer une setlist via id)
+- Créer un evenement (On peut lui attribuer une setlist via id et des membres)
+- Tester le Patch et Voir pour mettre les Membres dans le Get
+
+
 - Faire le Put et le Patch sur morceaux
 - Créer un instrument

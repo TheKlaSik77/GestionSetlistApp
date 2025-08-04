@@ -6,7 +6,7 @@ namespace GestionSetlistApp.Models
         public required string Nom { get; set; }
         public required DateTime Date { get; set; }
         public required string Lieu { get; set; }
-        public int SetlistId { get; set; }
+        public int? SetlistId { get; set; }
         public Setlist? Setlist { get; set; }
         public ICollection<MembreEvenement> ListeMembres { get; set; } = [];
         

@@ -3,3 +3,46 @@
 ### Get All Evenement
 GET {{GestionSetlistApp_HostAddress}}
 Accept: application/json
+
+### Get Evenement
+GET {{GestionSetlistApp_HostAddress}}/5
+Accept: application/json
+
+
+### Add Evenement
+POST {{GestionSetlistApp_HostAddress}}
+Content-Type: application/json
+
+{
+    "Nom" : "Hellfest",
+    "Date" : "2025-05-01",
+    "Lieu" : "Inconnu"
+}
+
+### PUT Evenement
+PUT {{GestionSetlistApp_HostAddress}}/6
+Content-Type: application/json
+
+{
+    "Nom" : "Fête de la Musique",
+    "Date" : "2024-05-30",
+    "Lieu" : "Paris"
+}
+
+### Patch Evenement (ajout d'une setlist)
+PATCH {{GestionSetlistApp_HostAddress}}/1
+Content-Type: application/json
+
+{
+    "SetlistId" : 1,
+    "ListeMembres" : [1,2,3]
+}
+
+### Delete All Evenements 
+DELETE {{GestionSetlistApp_HostAddress}}
+Accept: application/json
+
+
+### Delete Evenement
+DELETE {{GestionSetlistApp_HostAddress}}/1
+Accept: application/json
