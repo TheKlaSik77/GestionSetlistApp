@@ -5,15 +5,7 @@ GET {{GestionSetlistApp_HostAddress}}
 Accept: application/json
 
 ### Get Membre
-GET {{GestionSetlistApp_HostAddress}}/2
-Accept: application/json
-
-### Delete Membre
-DELETE {{GestionSetlistApp_HostAddress}}/7
-Accept: application/json
-
-### Delete All Membres
-DELETE {{GestionSetlistApp_HostAddress}}
+GET {{GestionSetlistApp_HostAddress}}/1
 Accept: application/json
 
 ### Ajout d'un membre
@@ -21,41 +13,17 @@ POST {{GestionSetlistApp_HostAddress}}
 Content-Type: application/json
 
 {
-    "Nom" : "OUI",
-    "Prenom" : "Angéline",
-    "DateNaissance" : "2001-11-13"
+    "Nom" : "Lasiek",
+    "Prenom" : "Kylian",
+    "DateNaissance" : "2001-12-01"
 }
 
-### Ajout de membres
-POST {{GestionSetlistApp_HostAddress}}/batch
-Content-Type: application/json
-
-[
-    {
-        "Nom" : "Lasik",
-        "Prenom" : "Kylian",
-        "DateNaissance" : "2001-07-01"
-    },
-    {
-        "Nom" : "Delcros",
-        "Prenom" : "Angéline",
-        "DateNaissance" : "2001-11-13"
-    },
-    {
-        "Nom" : "Doe",
-        "Prenom" : "John",
-        "DateNaissance" : "1987-02-05"
-    }
-]
-
-### Update d'un membre
-PUT {{GestionSetlistApp_HostAddress}}/2
+### Ajout de InstrumentToMembre
+POST {{GestionSetlistApp_HostAddress}}/1/instrument/
 Content-Type: application/json
 
 {
-    "Nom" : "Lasik",
-    "Prenom" : "Kylian",
-    "DateNaissance" : "2001-07-01"
+    "InstrumentId" : 1
 }
 
 ### Patch d'un membre
@@ -63,6 +31,30 @@ PATCH {{GestionSetlistApp_HostAddress}}/1
 Content-Type: application/json
 
 {
-    "Nom" : "Delcros"
+    "Nom" : "Lasik"
 }
 
+### Patch d'un membre
+PATCH {{GestionSetlistApp_HostAddress}}/1
+Content-Type: application/json
+
+{
+    "Prenom" : "Kylian"
+}
+
+### Patch d'un membre
+PATCH {{GestionSetlistApp_HostAddress}}/1
+Content-Type: application/json
+
+{
+    "DateNaissance" : "2001-07-01"
+}
+
+### Delete Membre
+DELETE {{GestionSetlistApp_HostAddress}}/1
+Accept: application/json
+
+
+### Delete Membre
+DELETE {{GestionSetlistApp_HostAddress}}/1/instrument/1
+Accept: application/json

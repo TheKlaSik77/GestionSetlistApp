@@ -1,0 +1,16 @@
+TODO : 
+- ajouter lien youtube que l'on remplit dans le AddMorceau. -> Fait
+
+
+besoins :
+
+- GetAll() -> Fait
+- Supprimer un morceau -> Requête Delete -> Fait
+- Recherche d'infos (API Deezer) avec titre, artiste - Requête GET avec la méthode d'api deezer. -> Fait /!\ Requête à tester quand réseau dispo
+- AddMorceau() avec titre, artiste, lienYoutube, album, durée morceau -> Requête POST -> Fait
+- GetMorceau() : Attributs morceaux -> liste des setlists (SetlistId, NomSetlist, PositionDansLeMorceau) -> Requête GET -> Fait
+- ModifierLienYoutube() : PATCH -> Fait
+
+
+Terminé.
+

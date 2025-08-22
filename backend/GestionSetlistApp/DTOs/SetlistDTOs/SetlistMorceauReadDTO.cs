@@ -1,15 +1,16 @@
+using GestionSetlistApp.Models;
+
 namespace GestionSetlistApp.DTOs.SetlistDTOs
 {
     public record SetlistMorceauReadDTO
     {
-        public int MorceauId { get; set; }
-        public int PositionMorceauDansSetlist { get; set; }
+        public required int MorceauId { get; set; }
+        public required string Titre { get; set; }
+        public required string Artiste { get; set; }
+        public required int DureeMorceau { get; set; }
+        public required int PositionMorceauDansSetlist { get; set; }
 
-        public SetlistMorceauReadDTO(int morceauId, int positionMorceauDansSetlist)
-        {
-            MorceauId = morceauId;
-            PositionMorceauDansSetlist = positionMorceauDansSetlist;
-        }
+        
 
     }
 }

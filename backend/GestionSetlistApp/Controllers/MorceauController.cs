@@ -5,6 +5,8 @@ using GestionSetlistApp.Services.MorceauServices;
 using GestionSetlistApp.DTOs.MorceauDTOs;
 using GestionSetlistApp.DTOs.MorceauDTOs.DeezerAPIDTOs;
 using Microsoft.EntityFrameworkCore;
+using GestionSetlistApp.Exceptions;
+using GestionSetlistApp.DTOs.MorceauSetlistDTOs;
 
 namespace GestionSetlistApp.Controllers
 {
@@ -15,12 +17,27 @@ namespace GestionSetlistApp.Controllers
         private readonly IMorceauService _service = service;
 
         [HttpGet]
-
-        public async Task<ActionResult<IEnumerable<MorceauReadDTO>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<MorceauReadDTO>>> GetAllMorceauxAsync()
         {
             var result = await _service.GetAllAsync();
             return Ok(result);
         }
+
+        // Exemple de requête : GET /api/morceau/search?titre=Shape+of+You&artiste=Ed+Sheeran
+        [HttpGet("deezersearch")]
+        public async Task<ActionResult<DeezerAPIEntiteDTO>> GetInfosAPIDeezer([FromQuery] string titre, [FromQuery] string artiste)
+        {
+            try 
+            {
+                var morceau = await _service.GetInfosAPIDeezer(titre, artiste);
+                return Ok(morceau);
+            }
+            catch(ExternalDataNotFoundException)
+            {
+                return NotFound("Impossible de récupérer les informations du morceau.");
+            }
+        }
+
 
         [HttpGet("{morceauId}", Name = "GetMorceauAsync")]
         public async Task<ActionResult<MorceauReadDTO>> GetMorceauAsync(int morceauId)
@@ -43,21 +60,19 @@ namespace GestionSetlistApp.Controllers
             return CreatedAtRoute("GetMorceauAsync", new { morceauId = nouveauMorceau.MorceauId }, nouveauMorceau); 
         }
 
-        [HttpPost("batch")]
-        public async Task<IActionResult> AddMorceauxAsync([FromBody] IEnumerable<MorceauCreateDTO> morceauCreateDTO)
+        [HttpPatch("{morceauId}")]
+        public async Task<IActionResult> ModifierLienYoutubeAsync(int morceauId, [FromBody] MorceauPatchYoutubeDTO morceauPatchYoutubeDTO)
         {
-            await _service.AddMorceauxAsync(morceauCreateDTO);
-            return Ok("Morceaux Ajoutés");
+            try
+            {
+                await _service.ModifierLienYoutubeAsync(morceauId, morceauPatchYoutubeDTO);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Morceau invalide");
+            }
         }
-
-
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAllAsync()
-        {
-            await _service.DeleteAllAsync();
-            return Ok("Tous les morceaux ont bien été supprimés");
-        }
-
 
         [HttpDelete("{morceauId}")]
         public async Task<ActionResult> DeleteMorceauAsync(int morceauId)

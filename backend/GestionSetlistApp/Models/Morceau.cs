@@ -5,8 +5,9 @@ namespace GestionSetlistApp.Models
         public int MorceauId { get; set; }
         public required string Titre { get; set; }
         public required string Artiste { get; set; }
-        public string? Album { get; set; }
+        public required string Album { get; set; }
         public int DureeMorceau { get; set; }
+        public required string LienYoutube { get; set; }
 
         public ICollection<MorceauSetlist> MorceauSetlists { get; set; } = [];
     }

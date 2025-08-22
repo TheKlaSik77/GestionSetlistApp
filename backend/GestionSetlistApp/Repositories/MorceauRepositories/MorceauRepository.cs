@@ -6,7 +6,6 @@ namespace GestionSetlistApp.Repositories.MorceauRepositories
 {
     public class MorceauRepository(GestionSetlistDbContext dbContext) : IMorceauRepository
     {
-        // Ici on implémente le dbContext
         private readonly GestionSetlistDbContext _dbContext = dbContext;
 
         public async Task<IEnumerable<Morceau>> GetAllAsync()
@@ -43,10 +42,16 @@ namespace GestionSetlistApp.Repositories.MorceauRepositories
             .ThenInclude(ms => ms.Setlist).FirstOrDefaultAsync(m => m.MorceauId == morceauId);
         }
 
+        public async Task UpdateMorceauAsync(Morceau morceau)
+        {
+            _dbContext.Morceaux.Update(morceau);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task DeleteMorceauAsync(int morceauId)
         {
-            var morceau = await _dbContext.Morceaux.FirstAsync(m => m.MorceauId == morceauId);
-            if (morceau.MorceauSetlists.Any())
+            var morceau = await _dbContext.Morceaux.FirstOrDefaultAsync(m => m.MorceauId == morceauId) ?? throw new KeyNotFoundException();
+            if (morceau.MorceauSetlists.Count != 0)
             {
                 _dbContext.MorceauSetlist.RemoveRange(morceau.MorceauSetlists);
             }
@@ -54,5 +59,6 @@ namespace GestionSetlistApp.Repositories.MorceauRepositories
             await _dbContext.SaveChangesAsync();
 
         }
+
     }
 }

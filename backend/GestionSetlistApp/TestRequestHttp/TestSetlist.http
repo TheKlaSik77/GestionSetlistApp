@@ -1,0 +1,57 @@
+@GestionSetlistApp_HostAddress = http://localhost:5034/setlist
+
+### GET All Setlists
+GET {{GestionSetlistApp_HostAddress}}
+Accept: application/json
+
+
+### GET sur SetlistId 
+GET {{GestionSetlistApp_HostAddress}}/1
+Accept: application/json
+
+### POST
+POST {{GestionSetlistApp_HostAddress}}
+Content-Type: application/json
+
+{
+    "Nom" : "Test Setlist 1"
+}
+
+### GET MorceauToSetlist 
+GET {{GestionSetlistApp_HostAddress}}/1/morceau/1
+Accept: application/json
+
+
+### Post MorceauToSetlist
+POST {{GestionSetlistApp_HostAddress}}/1/morceau
+Content-Type: application/json
+
+{
+    "MorceauId" : 1
+}
+
+### Get MembreSetlist
+GET {{GestionSetlistApp_HostAddress}}/1/membre/1
+Accept: application/json
+
+
+### Post MembreSetlist
+POST {{GestionSetlistApp_HostAddress}}/1/membre
+Content-Type: application/json
+
+{
+    "MembreId" : 1
+}
+
+### Delete d'un lien MorceauToSetlist
+DELETE {{GestionSetlistApp_HostAddress}}/1/morceau/1
+Accept: application/json
+
+### Delete d'un lien MembreToSetlist
+DELETE {{GestionSetlistApp_HostAddress}}/1/membre/1
+Accept: application/json
+
+### Delete Setlist et ses liens 
+DELETE {{GestionSetlistApp_HostAddress}}/1
+Accept: application/json
+

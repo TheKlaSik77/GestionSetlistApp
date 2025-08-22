@@ -8,6 +8,8 @@ using GestionSetlistApp.Services.MembreServices;
 using GestionSetlistApp.Repositories.MembreRepositories;
 using GestionSetlistApp.Services.EvenementServices;
 using GestionSetlistApp.Repositories.EvenementRepositories;
+using GestionSetlistApp.Repositories.InstrumentRepositories;
+using GestionSetlistApp.Services.InstrumentServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +45,11 @@ builder.Services.AddScoped<IMembreRepository, MembreRepository>();
 // Evenement
 builder.Services.AddScoped<IEvenementService, EvenementService>();
 builder.Services.AddScoped<IEvenementRepository, EvenementRepository>();
+
+// Instrument
+builder.Services.AddScoped<IInstrumentService, InstrumentService>();
+builder.Services.AddScoped<IInstrumentRepository, InstrumentRepository>();
+
 
 var app = builder.Build();
 

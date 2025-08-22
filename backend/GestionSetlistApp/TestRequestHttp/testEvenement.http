@@ -5,7 +5,7 @@ GET {{GestionSetlistApp_HostAddress}}
 Accept: application/json
 
 ### Get Evenement
-GET {{GestionSetlistApp_HostAddress}}/5
+GET {{GestionSetlistApp_HostAddress}}/1
 Accept: application/json
 
 
@@ -34,8 +34,7 @@ PATCH {{GestionSetlistApp_HostAddress}}/1
 Content-Type: application/json
 
 {
-    "SetlistId" : 1,
-    "ListeMembres" : [1,2,3]
+    "SetlistId" : 1
 }
 
 ### Delete All Evenements 

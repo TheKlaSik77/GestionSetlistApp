@@ -11,48 +11,60 @@ namespace GestionSetlistApp.Repositories.MembreRepositories
         public async Task<IEnumerable<Membre>> GetAllMembresAsync()
         {
             return await _dbContext.Membres
-            .Include(s => s.MembreSetlist)
             .Include(i => i.Instruments)
-            .Include(e => e.MembreEvenements)
+                .ThenInclude(m => m.Instrument)
             .ToListAsync();
         }
+
+        public async Task<Membre?> GetMembreAsync(int membreId)
+        {
+            return await _dbContext.Membres
+            .Include(m => m.Instruments)
+                .ThenInclude(m => m.Instrument)
+            .FirstOrDefaultAsync(m => m.MembreId == membreId);
+        }
+
+        public async Task<Instrument?> GetInstrumentAsync(int instrumentId)
+        {
+            return await _dbContext.Instruments.FirstOrDefaultAsync(i => i.InstrumentId == instrumentId);
+        }
+
+        public async Task<MembreJoueDe?> GetInstrumentToMembreAsync(int membreId, int instrumentId)
+        {
+            return await _dbContext.MembreJoueDe.FirstOrDefaultAsync(mjd => mjd.InstrumentId == instrumentId && mjd.MembreId == membreId);
+        }
+
         public async Task AddMembreAsync(Membre membre)
         {
             await _dbContext.Membres.AddAsync(membre);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Membre?> GetMembreAsync(int membreId)
+        public async Task AddInstrumentToMembreAsync(MembreJoueDe nouveauInstrumentToMembre)
         {
-            return await _dbContext.Membres.Include(m => m.MembreEvenements).Include(m => m.Instruments).Include(m => m.MembreSetlist).FirstOrDefaultAsync(m => m.MembreId == membreId); 
+            await _dbContext.MembreJoueDe.AddAsync(nouveauInstrumentToMembre);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateMembreAsync(Membre membre)
+        public async Task PatchMembreAsync(Membre membre)
         {
             _dbContext.Membres.Update(membre);
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteAllAsync()
-        {
-            var membresASupp = _dbContext.Membres.ToList();
-            foreach (var m in membresASupp)
-            {
-                _dbContext.MembreSetlist.RemoveRange(m.MembreSetlist);
-                _dbContext.MembreEvenement.RemoveRange(m.MembreEvenements);
-                _dbContext.MembreJoueDe.RemoveRange(m.Instruments);
-            }
-            _dbContext.Membres.RemoveRange(membresASupp);
-            await _dbContext.SaveChangesAsync();
-            await _dbContext.Database.ExecuteSqlRawAsync("ALTER TABLE membres AUTO_INCREMENT = 1;");
-
-        }
         public async Task DeleteMembreAsync(int membreId)
         {
             var membreASupp = await _dbContext.Membres.FirstAsync(m => m.MembreId == membreId);
+            _dbContext.MembreSetlist.RemoveRange(membreASupp.MembreSetlist);
+            _dbContext.MembreJoueDe.RemoveRange(membreASupp.Instruments);
             _dbContext.Membres.Remove(membreASupp);
             await _dbContext.SaveChangesAsync();
 
+        }
+
+        public async Task DeleteInstrumentToMembreAsync(int membreId, int instrumentId)
+        {
+            await _dbContext.MembreJoueDe.Where(mjd => mjd.MembreId == membreId && mjd.InstrumentId == instrumentId).ExecuteDeleteAsync();
         }
     }
 }

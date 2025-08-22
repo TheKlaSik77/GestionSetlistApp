@@ -1,0 +1,9 @@
+besoins : 
+
+- GetAll() : nom, prénom, age, listeInstruments (1.Liste membre) -> Fait
+- Patch sur nom, prenom, date de naissance. (2.Modifier membre) -> Fait
+- AddMembre() avec nom, prénom, date de naissance (4.Ajout membre) -> Fait
+- AddMembreJoueDe() pour attribuer un Instrument existant par id à un membre.(2.Modifier membre) -> Fait
+- Delete InstrumentToMembre -> Fait
+
+Terminé

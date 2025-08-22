@@ -9,8 +9,6 @@ namespace GestionSetlistApp.Models
         public int Age { get; set; }
         public ICollection<MembreSetlist> MembreSetlist { get; set; } = [];
         public ICollection<MembreJoueDe> Instruments { get; set; } = [];
-        public ICollection<MembreEvenement> MembreEvenements { get; set; } = [];
-
         public void CalculerAge()
         {
             var today = DateTime.Today;

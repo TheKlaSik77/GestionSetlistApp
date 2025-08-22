@@ -12,7 +12,6 @@ namespace GestionSetlistApp.Data
 
         public DbSet<Evenement> Evenements { get; set; }
         public DbSet<Membre> Membres { get; set; }
-        public DbSet<MembreEvenement> MembreEvenement { get; set; }
         public DbSet<MembreJoueDe> MembreJoueDe { get; set; }
         public DbSet<MembreSetlist> MembreSetlist { get; set; }
         public DbSet<Morceau> Morceaux { get; set; }
@@ -22,8 +21,6 @@ namespace GestionSetlistApp.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MembreEvenement>().HasKey(me => new { me.MembreId, me.EvenementId });
-
             modelBuilder.Entity<MembreSetlist>().HasKey(ms => new { ms.MembreId, ms.SetlistId });
 
             modelBuilder.Entity<MorceauSetlist>().HasKey(mos => new { mos.MorceauId, mos.SetlistId });

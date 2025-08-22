@@ -3,6 +3,8 @@ using GestionSetlistApp.DTOs.MorceauSetlistDTOs;
 using GestionSetlistApp.Repositories.MorceauRepositories;
 using GestionSetlistApp.Models;
 using GestionSetlistApp.DTOs.MorceauDTOs.DeezerAPIDTOs;
+using Microsoft.AspNetCore.Http.HttpResults;
+using GestionSetlistApp.Exceptions;
 
 namespace GestionSetlistApp.Services.MorceauServices
 {
@@ -17,81 +19,98 @@ namespace GestionSetlistApp.Services.MorceauServices
             IEnumerable<Morceau> morceaux = await _repository.GetAllAsync();
 
             List<MorceauReadDTO> morceauxDTO = morceaux
-            .Select(m => new MorceauReadDTO(m.MorceauId, m.Titre, m.Artiste, m.Album, m.DureeMorceau,
-            m.MorceauSetlists
-                .Select(ms =>
-                    ms.SetlistId
-                ).ToList()))
-            .ToList();
+            .Select(m => new MorceauReadDTO
+            {
+                MorceauId = m.MorceauId,
+                Titre = m.Titre,
+                Artiste = m.Artiste,
+                Album = m.Album,
+                DureeMorceau = m.DureeMorceau,
+                LienYoutube = m.LienYoutube,
+                ListeSetlists = m.MorceauSetlists.Select(ms => new MorceauSetlistReadDTO
+                {
+                    SetlistId = ms.SetlistId,
+                    NomSetlist = ms.Setlist.NomSetlist,
+                    PositionMorceauDansSetlist = ms.Position
+                }).ToList()
+
+            }).ToList();
 
             return morceauxDTO;
         }
 
+        public async Task<DeezerAPIEntiteDTO> GetInfosAPIDeezer(string titre, string artiste)
+        {
+            DeezerAPIEntiteDTO deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(titre, artiste) ?? throw new ExternalDataNotFoundException();
+            return deezerAPIEntiteDTO;
+        }
+
+        public async Task<MorceauReadDTO> GetMorceauAsync(int morceauId)
+        {
+            var morceau = await _repository.GetMorceauAsync(morceauId) ?? throw new KeyNotFoundException();
+
+            return new MorceauReadDTO
+            {
+                MorceauId = morceau.MorceauId,
+                Titre = morceau.Titre,
+                Artiste = morceau.Artiste,
+                Album = morceau.Album,
+                DureeMorceau = morceau.DureeMorceau,
+                LienYoutube = morceau.LienYoutube,
+                ListeSetlists = morceau.MorceauSetlists.Select(ms => new MorceauSetlistReadDTO
+                {
+                    SetlistId = ms.SetlistId,
+                    NomSetlist = ms.Setlist.NomSetlist,
+                    PositionMorceauDansSetlist = ms.Position
+                }).ToList()
+            };
+        }
+        
         public async Task<MorceauReadDTO> AddMorceauAsync(MorceauCreateDTO morceauDTO)
         {
-            DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
 
             var morceau = new Morceau
             {
                 Titre = morceauDTO.Titre,
                 Artiste = morceauDTO.Artiste,
-                Album = deezerAPIEntiteDTO?.Album.Titre ?? "Inconnu",
-                DureeMorceau = deezerAPIEntiteDTO?.DureeMorceau ?? 0
+                Album = morceauDTO.Album,
+                DureeMorceau = morceauDTO.DureeMorceau,
+                LienYoutube = morceauDTO.LienYoutube ?? ""
             };
             await _repository.AddMorceauAsync(morceau);
-            return new MorceauReadDTO(
-                morceau.MorceauId,
-                morceau.Titre,
-                morceau.Artiste,
-                morceau.Album,
-                morceau.DureeMorceau,
-                morceau.MorceauSetlists.Select(ms => ms.SetlistId).ToList()
-            );
-        }
 
-        public async Task AddMorceauxAsync(IEnumerable<MorceauCreateDTO> morceauDTOs)
-        {
-            List<Morceau> morceaux = [];
-            foreach (var morceauDTO in morceauDTOs)
+            return new MorceauReadDTO
             {
-                DeezerAPIEntiteDTO? deezerAPIEntiteDTO = await _deezerAPIService.RechercherInfosParTitreEtArtiste(morceauDTO.Titre, morceauDTO.Artiste);
-
-                var morceau = new Morceau
+                MorceauId = morceau.MorceauId,
+                Titre = morceau.Titre,
+                Artiste = morceau.Artiste,
+                Album = morceau.Album,
+                DureeMorceau = morceau.DureeMorceau,
+                LienYoutube = morceau.LienYoutube,
+                ListeSetlists = morceau.MorceauSetlists.Select(ms => new MorceauSetlistReadDTO
                 {
-                    Titre = morceauDTO.Titre,
-                    Artiste = morceauDTO.Artiste,
-                    Album = deezerAPIEntiteDTO?.Album.Titre ?? "Inconnu",
-                    DureeMorceau = deezerAPIEntiteDTO?.DureeMorceau ?? 0
-                };
-
-                morceaux.Add(morceau);
-        
-            }
-            await _repository.AddMorceauxAsync(morceaux);
-
+                    SetlistId = ms.SetlistId,
+                    NomSetlist = ms.Setlist.NomSetlist,
+                    PositionMorceauDansSetlist = ms.Position
+                }).ToList()
+            };
         }
 
-        public async Task<Morceau?> GetMorceauAsync(int morceauId)
+        public async Task ModifierLienYoutubeAsync(int morceauId, MorceauPatchYoutubeDTO morceauPatchYoutubeDTO)
         {
-            return await _repository.GetMorceauAsync(morceauId);
+            var morceau = await _repository.GetMorceauAsync(morceauId) ?? throw new KeyNotFoundException();
+            morceau.LienYoutube = morceauPatchYoutubeDTO.LienYoutube;
+            await _repository.UpdateMorceauAsync(morceau);
         }
 
-        public async Task DeleteAllAsync()
-        {
-            await _repository.DeleteAllAsync();
-        }
-        
         public async Task DeleteMorceauAsync(int morceauId)
         {
             {
-                var morceau = await _repository.GetMorceauAsync(morceauId);
-                if (morceau is null)
-                    throw new KeyNotFoundException();
-
+                var morceau = await _repository.GetMorceauAsync(morceauId) ?? throw new KeyNotFoundException();
                 await _repository.DeleteMorceauAsync(morceauId);
             }
         }
-        
+
     }
 }
     

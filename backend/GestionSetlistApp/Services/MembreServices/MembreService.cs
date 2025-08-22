@@ -12,17 +12,50 @@ namespace GestionSetlistApp.Services.MembreServices
         {
             IEnumerable<Membre> membres = await _repository.GetAllMembresAsync();
             IEnumerable<MembreReadDTO> membresDTO = membres
-            .Select(m => new MembreReadDTO(m.MembreId,
-            m.Nom,
-            m.Prenom,
-            m.Age,
-            m.MembreSetlist.Select(ms => ms.SetlistId).ToList(),
-            m.Instruments.Select(i => i.InstrumentId).ToList(),
-            m.MembreEvenements.Select(me => me.EvenementId).ToList()
-            )
-            ).ToList();
+            .Select(m => new MembreReadDTO
+            {
+                MembreId = m.MembreId,
+                Nom = m.Nom,
+                Prenom = m.Prenom,
+                Age = m.Age,
+                ListeInstruments = m.Instruments.Select(i => new MembreInstrumentReadDTO
+                {
+                    InstrumentId = i.InstrumentId,
+                    Nom = i.Instrument.Nom
+                }
+            ).ToList()
+            }).ToList();
             return membresDTO;
         }
+
+        public async Task<MembreReadDTO> GetMembreAsync(int membreId)
+        {
+            var membre = await _repository.GetMembreAsync(membreId) ?? throw new KeyNotFoundException();
+            return new MembreReadDTO
+            {
+                MembreId = membre.MembreId,
+                Nom = membre.Nom,
+                Prenom = membre.Prenom,
+                Age = membre.Age,
+                ListeInstruments = membre.Instruments.Select(i => new MembreInstrumentReadDTO
+                {
+                    InstrumentId = i.InstrumentId,
+                    Nom = i.Instrument.Nom
+                }
+                ).ToList()
+            };
+        }
+
+        public async Task<InstrumentToMembreReadDTO> GetInstrumentToMembreAsync(int membreId, int instrumentId)
+        {
+            var instrumentToMembre = await _repository.GetInstrumentToMembreAsync(membreId, instrumentId) ?? throw new KeyNotFoundException();
+            return new InstrumentToMembreReadDTO
+            {
+                InstrumentId = instrumentToMembre.InstrumentId,
+                MembreId = instrumentToMembre.MembreId
+            };
+        }
+
         public async Task<MembreReadDTO> AddMembreAsync(MembreCreateDTO membreDTO)
         {
             if (membreDTO.DateNaissance > DateTime.Today)
@@ -38,41 +71,40 @@ namespace GestionSetlistApp.Services.MembreServices
 
             membre.CalculerAge();
             await _repository.AddMembreAsync(membre);
-            
-            return new MembreReadDTO(
-                membre.MembreId,
-                membre.Nom,
-                membre.Prenom,
-                membre.Age,
-                [], [], []
-            );
+
+            return new MembreReadDTO
+            {
+                MembreId = membre.MembreId,
+                Nom = membre.Nom,
+                Prenom = membre.Prenom,
+                Age = membre.Age,
+                ListeInstruments = membre.Instruments.Select(i => new MembreInstrumentReadDTO
+                {
+                    InstrumentId = i.InstrumentId,
+                    Nom = i.Instrument.Nom
+                }
+                ).ToList()
+            };
         }
 
-        public async Task<MembreReadDTO> GetMembreAsync(int membreId)
+        public async Task<InstrumentToMembreReadDTO> AddInstrumentToMembreAsync(int membreId, InstrumentToMembreCreateDTO instrumentToMembreCreateDTO)
         {
-            var membre = await _repository.GetMembreAsync(membreId) ?? throw new KeyNotFoundException();
-            return new MembreReadDTO(
-                membre.MembreId,
-                membre.Nom,
-                membre.Prenom,
-                membre.Age,
-                membre.MembreSetlist.Select(ms => ms.SetlistId).ToList(),
-                membre.Instruments.Select(i => i.InstrumentId).ToList(),
-                membre.MembreEvenements.Select(me => me.EvenementId).ToList()
-            );                 
+            var nouveauInstrumentToMembre = new MembreJoueDe
+            {
+                MembreId = membreId,
+                Membre = await _repository.GetMembreAsync(membreId) ?? throw new KeyNotFoundException(),
+                InstrumentId = instrumentToMembreCreateDTO.InstrumentId,
+                Instrument = await _repository.GetInstrumentAsync(instrumentToMembreCreateDTO.InstrumentId) ?? throw new KeyNotFoundException()
+            };
+            await _repository.AddInstrumentToMembreAsync(nouveauInstrumentToMembre);
+
+            return new InstrumentToMembreReadDTO
+            {
+                MembreId = nouveauInstrumentToMembre.MembreId,
+                InstrumentId = instrumentToMembreCreateDTO.InstrumentId
+            };
         }
 
-        public async Task UpdateMembreAsync(int membreId, MembreCreateDTO membreCreateDTO)
-        {
-            var membre = await _repository.GetMembreAsync(membreId) ?? throw new KeyNotFoundException();
-
-            membre.Nom = membreCreateDTO.Nom;
-            membre.Prenom = membreCreateDTO.Prenom;
-            membre.DateNaissance = membreCreateDTO.DateNaissance;
-            
-            membre.CalculerAge();
-            await _repository.UpdateMembreAsync(membre);
-        }
         public async Task PatchMembreAsync(int membreId, MembrePatchDTO membrePatchDTO)
         {
             var membre = await _repository.GetMembreAsync(membreId) ?? throw new KeyNotFoundException();
@@ -89,22 +121,24 @@ namespace GestionSetlistApp.Services.MembreServices
                 membre.DateNaissance = membrePatchDTO.DateNaissance.Value;
                 membre.CalculerAge();
             }
-            await _repository.UpdateMembreAsync(membre);
+            await _repository.PatchMembreAsync(membre);
         }
+
         public async Task DeleteMembreAsync(int membreId)
         {
             var membre = await _repository.GetMembreAsync(membreId);
             if (membre == null)
             {
-                Console.WriteLine("Coucou");
                 throw new KeyNotFoundException();
             }
             await _repository.DeleteMembreAsync(membreId);
 
         }
-        public async Task DeleteAllAsync()
+
+        public async Task DeleteInstrumentToMembreAsync(int membreId, int instrumentId)
         {
-            await _repository.DeleteAllAsync();
+            var instrumentToMembre = await _repository.GetInstrumentToMembreAsync(membreId, instrumentId) ?? throw new KeyNotFoundException();
+            await _repository.DeleteInstrumentToMembreAsync(membreId,instrumentId);
         }
     }
 }

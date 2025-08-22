@@ -9,42 +9,32 @@ Accept: application/json
 GET {{GestionSetlistApp_HostAddress}}/1
 Accept: application/json
 
+### Appel à l'api
+GET {{GestionSetlistApp_HostAddress}}/deezersearch?titre=Shape+of+You&artiste=Ed+Sheeran
+Accept: application/json
 
-### Ajout d'un Element
+### Puis, Ajout d'un Element
 POST {{GestionSetlistApp_HostAddress}}
 Content-Type: application/json
 
 {
     "Titre" : "Devolution",
-    "Artiste" : "Starset"
+    "Artiste" : "Starset",
+    "Album" : "Horizon",
+    "DureeMorceau" : "180"
 }
 
+### Suppresion d'un morceau
+DELETE {{GestionSetlistApp_HostAddress}}/1
+Accept:  application/json
 
-### Ajout de plusieurs Elements
-POST {{GestionSetlistApp_HostAddress}}/batch
+### Modification du lien Youtube
+PATCH {{GestionSetlistApp_HostAddress}}/1
 Content-Type: application/json
 
-[
-    {
-        "Titre" : "Little Wing",
-        "Artiste" : "Jimi Hendrix"
-    },
-    {
-        "Titre" : "Back in Black",
-        "Artiste" : "ACDC"
-    }
-]
-
-
-### Suppresion de tous les morceaux
-DELETE {{GestionSetlistApp_HostAddress}}
-Accept:  application/json
-
-
-### Suppresion d'un morceau
-DELETE {{GestionSetlistApp_HostAddress}}/3
-Accept:  application/json
-
+{
+    "LienYoutube" : "https://www.youtube.com/watch?v=qt2Ulc5h6lU"
+}
 
 
 

@@ -100,21 +100,6 @@ namespace GestionSetlistApp.Migrations
                     b.ToTable("Membres");
                 });
 
-            modelBuilder.Entity("GestionSetlistApp.Models.MembreEvenement", b =>
-                {
-                    b.Property<int>("MembreId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EvenementId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MembreId", "EvenementId");
-
-                    b.HasIndex("EvenementId");
-
-                    b.ToTable("MembreEvenement");
-                });
-
             modelBuilder.Entity("GestionSetlistApp.Models.MembreJoueDe", b =>
                 {
                     b.Property<int>("MembreId")
@@ -154,6 +139,7 @@ namespace GestionSetlistApp.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("MorceauId"));
 
                     b.Property<string>("Album")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Artiste")
@@ -162,6 +148,10 @@ namespace GestionSetlistApp.Migrations
 
                     b.Property<int>("DureeMorceau")
                         .HasColumnType("int");
+
+                    b.Property<string>("LienYoutube")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Titre")
                         .IsRequired()
@@ -226,25 +216,6 @@ namespace GestionSetlistApp.Migrations
                         .HasForeignKey("InstrumentId");
                 });
 
-            modelBuilder.Entity("GestionSetlistApp.Models.MembreEvenement", b =>
-                {
-                    b.HasOne("GestionSetlistApp.Models.Evenement", "Evenement")
-                        .WithMany("ListeMembres")
-                        .HasForeignKey("EvenementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GestionSetlistApp.Models.Membre", "Membre")
-                        .WithMany("MembreEvenements")
-                        .HasForeignKey("MembreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Evenement");
-
-                    b.Navigation("Membre");
-                });
-
             modelBuilder.Entity("GestionSetlistApp.Models.MembreJoueDe", b =>
                 {
                     b.HasOne("GestionSetlistApp.Models.Instrument", "Instrument")
@@ -302,11 +273,6 @@ namespace GestionSetlistApp.Migrations
                     b.Navigation("Setlist");
                 });
 
-            modelBuilder.Entity("GestionSetlistApp.Models.Evenement", b =>
-                {
-                    b.Navigation("ListeMembres");
-                });
-
             modelBuilder.Entity("GestionSetlistApp.Models.Instrument", b =>
                 {
                     b.Navigation("Membres");
@@ -315,8 +281,6 @@ namespace GestionSetlistApp.Migrations
             modelBuilder.Entity("GestionSetlistApp.Models.Membre", b =>
                 {
                     b.Navigation("Instruments");
-
-                    b.Navigation("MembreEvenements");
 
                     b.Navigation("MembreSetlist");
                 });

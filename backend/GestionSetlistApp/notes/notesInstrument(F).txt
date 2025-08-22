@@ -1,0 +1,7 @@
+besoins: 
+
+- GetAll() (Membre -> 3.Ajout Instrument) -> Fait 
+- GetInstrument() -> Fait 
+- AddInstrument -> Requête POST sur Instruments -> Fait
+- Delete d'un Instrument -> Fait
+

@@ -26,60 +26,46 @@ namespace GestionSetlistApp.Controllers
                 var membre = await _service.GetMembreAsync(membreId);
                 return Ok(membre);
             }
-            catch(KeyNotFoundException)
+            catch (KeyNotFoundException)
             {
                 return NotFound("Membre Invalide");
             }
-                
+
+        }
+
+        [HttpGet("{membreId}/instrument/{instrumentId}", Name = "GetInstrumentToMembreAsync")]
+        public async Task<ActionResult<InstrumentToMembreReadDTO>> GetInstrumentToMembreAsync(int membreId, int instrumentId)
+        {
+            try
+            {
+                var instrumentToMembre = await _service.GetInstrumentToMembreAsync(membreId, instrumentId);
+                return Ok(instrumentToMembre);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Membre ou Instrument Invalide");
+            }
+
         }
 
         [HttpPost]
         public async Task<IActionResult> AddMembreAsync([FromBody] MembreCreateDTO membreCreateDTO)
         {
-            try
-            {
-                var nouveauMembre = await _service.AddMembreAsync(membreCreateDTO);
-                //Console.WriteLine($"\n\n\nMembre ajouté avec l'id {nouveauMembre.MembreId}\n\n\n");
-                return CreatedAtRoute("GetMembreAsync", new { membreId = nouveauMembre.MembreId }, nouveauMembre);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var nouveauMembre = await _service.AddMembreAsync(membreCreateDTO);
+            return CreatedAtRoute("GetMembreAsync", new { membreId = nouveauMembre.MembreId }, nouveauMembre);
         }
 
-        [HttpPost("batch")]
-        public async Task<IActionResult> AddMembresAsync([FromBody] IEnumerable<MembreCreateDTO> membreCreateDTO)
+        [HttpPost("{membreId}/instrument")]
+        public async Task<IActionResult> AddInstrumentToMembreAsync(int membreId, [FromBody] InstrumentToMembreCreateDTO instrumentToMembreCreateDTO)
         {
             try
             {
-                var membresAjoutes = new List<MembreReadDTO>();
-                foreach (var nouveauMembre in membreCreateDTO)
-                {
-                    var membreAjoute = await _service.AddMembreAsync(nouveauMembre);
-                    membresAjoutes.Add(membreAjoute);
-
-                }
-                return Created("", membresAjoutes);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPut("{membreId}")]
-        public async Task<IActionResult> UpdateMembreAsync(int membreId, [FromBody] MembreCreateDTO membreCreateDTO)
-        {
-            try
-            {
-                await _service.UpdateMembreAsync(membreId, membreCreateDTO);
-                return NoContent();
-
+                var nouveauInstrumentToMembre = await _service.AddInstrumentToMembreAsync(membreId, instrumentToMembreCreateDTO);
+                return CreatedAtRoute("GetInstrumentToMembreAsync", new { membreId, instrumentToMembreCreateDTO.InstrumentId }, nouveauInstrumentToMembre);
             }
             catch (KeyNotFoundException)
             {
-                return NotFound("Membre Invalide");
+                return NotFound("Membre ou Instrument invalide");
             }
         }
 
@@ -97,25 +83,31 @@ namespace GestionSetlistApp.Controllers
             }
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteAllAsync()
-        {
-            await _service.DeleteAllAsync();
-            return Ok("Tous les membres ont bien été supprimés");
-        }
-
-
         [HttpDelete("{membreId}")]
         public async Task<ActionResult> DeleteMembreAsync(int membreId)
         {
             try
             {
                 await _service.DeleteMembreAsync(membreId);
-                return Ok("Membre supprimé");
+                return NoContent();
             }
             catch (KeyNotFoundException)
             {
                 return NotFound("Membre introuvable");
+            }
+        }
+
+        [HttpDelete("{membreId}/instrument/{instrumentId}")]
+        public async Task<IActionResult> DeleteInstrumentToMembreAsync(int membreId, int instrumentId)
+        {
+            try
+            {
+                await _service.DeleteInstrumentToMembreAsync(membreId, instrumentId);
+                return NoContent();
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound("Membre ou Instrument introuvable");
             }
         }
     }

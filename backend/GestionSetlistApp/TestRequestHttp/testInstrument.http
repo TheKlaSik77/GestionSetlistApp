@@ -1,0 +1,24 @@
+@GestionSetlistApp_HostAddress = http://localhost:5034/api/instrument
+
+### Get All Instruments
+GET {{GestionSetlistApp_HostAddress}}
+Accept: application/json
+
+
+### Get Instrument
+GET {{GestionSetlistApp_HostAddress}}/1
+Accept: application/json
+
+
+### Add Instrument
+POST {{GestionSetlistApp_HostAddress}}
+Content-Type: application/json
+
+{
+    "Nom" : "Guitare Electrique"
+}
+
+
+### Delete Instrument
+DELETE  {{GestionSetlistApp_HostAddress}}/1
+Accept: application/json

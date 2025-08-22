@@ -13,14 +13,24 @@ namespace GestionSetlistApp.Repositories.EvenementRepositories
         public async Task<IEnumerable<Evenement>> GetAllEvenementsAsync()
         {
             return await _dbContext.Evenements
-            .Include(m => m.ListeMembres)
+            .Include(e => e.Setlist!)
+                .ThenInclude(s => s.MorceauSetlists)
+                    .ThenInclude(ms => ms.Morceau)
+            .Include(e => e.Setlist!)
+                .ThenInclude(s => s.MembreSetlist)
+                    .ThenInclude(ms => ms.Membre)
             .ToListAsync();
         }
 
         public async Task<Evenement?> GetEvenementAsync(int evenementId)
         {
             return await _dbContext.Evenements
-            .Include(m => m.ListeMembres)
+            .Include(e => e.Setlist!)
+                .ThenInclude(s => s.MorceauSetlists)
+                    .ThenInclude(ms => ms.Morceau)
+            .Include(e => e.Setlist!)
+                .ThenInclude(s => s.MembreSetlist)
+                    .ThenInclude(ms => ms.Membre)
             .FirstOrDefaultAsync(e => e.EvenementId == evenementId);
         }
 

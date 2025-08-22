@@ -6,18 +6,18 @@ namespace GestionSetlistApp.DTOs.SetlistDTOs
         public int SetlistId { get; set; }
         public string? NomSetlist { get; set; }
         public int DureeSetlist { get; set; }
-        public ICollection<int> ListIdEvenements { get; set; }
-        public ICollection<SetlistMorceauReadDTO> Morceaux { get; set; }
-        public ICollection<int> ListeIdMembres { get; set; }
+        public ICollection<SetlistEvenementReadDTO> ListeEvenements { get; set; }
+        public ICollection<SetlistMorceauReadDTO> ListeMorceaux { get; set; }
+        public ICollection<SetlistMembreReadDTO> ListeMembres { get; set; }
 
-        public SetlistReadDTO(int setlistId, string nomSetlist, int dureeSetlist, ICollection<int> listeIdEvenements, ICollection<SetlistMorceauReadDTO> listeMorceaux, ICollection<int> listeIdMembres)
+        public SetlistReadDTO(int setlistId, string nomSetlist, int dureeSetlist, ICollection<SetlistEvenementReadDTO> listeEvenements, ICollection<SetlistMorceauReadDTO> listeMorceaux, ICollection<SetlistMembreReadDTO> listeMembres)
         {
             SetlistId = setlistId;
             NomSetlist = nomSetlist;
             DureeSetlist = dureeSetlist;
-            ListIdEvenements = listeIdEvenements ?? [];
-            Morceaux = listeMorceaux ?? [];
-            ListeIdMembres = listeIdMembres ?? [];
+            ListeEvenements = listeEvenements ?? [];
+            ListeMorceaux = listeMorceaux ?? [];
+            ListeMembres = listeMembres ?? [];
         }
     }
 }

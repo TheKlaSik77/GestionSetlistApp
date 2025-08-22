@@ -1,4 +1,3 @@
-using GestionSetlistApp.DTOs.MembreSetlistDTOs;
 
 namespace GestionSetlistApp.DTOs.MembreDTOs
 {

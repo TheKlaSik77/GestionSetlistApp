@@ -1,4 +1,0 @@
-@GestionSetlistApp_HostAddress = http://localhost:5034
-
-GET {{GestionSetlistApp_HostAddress}}/setlist
-Accept: application/json

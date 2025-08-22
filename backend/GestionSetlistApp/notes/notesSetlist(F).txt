@@ -1,0 +1,13 @@
+
+
+besoins :
+
+- GetAll() -> Requête GET -> Fait
+- GetSetlist() avec nomSetList; durée [Calcul de la durée avec somme durée morceaux] ; MorceauSetlist -> Position; Evenements -> nom, date, lieu; Membres -> nom -> Fait
+- AddSetlist() avec nomSetList -> Fait
+- Ajout du morceau dans une setlist -> Requête POST sur Setlist/idSetlist/morceau/ avec morceauId et position dans le Body . Si position vide, on le fixe à la dernière position + 1. -> Fait
+- Delete d'un MorceauSetlist -> Fait
+- Delete d'une setlist | Delete aussi toutes les setlists contenant ce setlistId. -> Fait
+- Ajouter un membre à une setlist (ajout d'un MembreSetlist). -> Fait
+
+Terminé
