@@ -169,8 +169,14 @@ namespace GestionSetlistApp.Services.EvenementServices
             {
                 evenementUpdate.SetlistId = evenementPatchDTO.SetlistId;
             }
-            
+
             await _repository.UpdateEvenementAsync(evenementUpdate);
+        }
+
+        public async Task DeleteEvenementAsync(int evenementId)
+        {
+            var evenementAsupp = await _repository.GetEvenementAsync(evenementId) ?? throw new KeyNotFoundException();
+            await _repository.DeleteEvenementAsync(evenementId);
         }
     }
 

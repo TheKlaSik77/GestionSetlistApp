@@ -9,5 +9,6 @@ namespace GestionSetlistApp.Repositories.EvenementRepositories
         public Task<Evenement?> GetEvenementAsync(int evenementId);
         public Task AddEvenementAsync(Evenement evenement);
         public Task UpdateEvenementAsync(Evenement evenement);
+        public Task DeleteEvenementAsync(int evenementId);
     }  
 }

@@ -19,28 +19,14 @@ Content-Type: application/json
     "Lieu" : "Inconnu"
 }
 
-### PUT Evenement
-PUT {{GestionSetlistApp_HostAddress}}/6
-Content-Type: application/json
-
-{
-    "Nom" : "Fête de la Musique",
-    "Date" : "2024-05-30",
-    "Lieu" : "Paris"
-}
-
 ### Patch Evenement (ajout d'une setlist)
 PATCH {{GestionSetlistApp_HostAddress}}/1
 Content-Type: application/json
 
 {
+    "Lieu" : "Marseille",
     "SetlistId" : 1
 }
-
-### Delete All Evenements 
-DELETE {{GestionSetlistApp_HostAddress}}
-Accept: application/json
-
 
 ### Delete Evenement
 DELETE {{GestionSetlistApp_HostAddress}}/1

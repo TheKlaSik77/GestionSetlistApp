@@ -6,7 +6,7 @@ using GestionSetlistApp.Models;
 namespace GestionSetlistApp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("/api/[controller]")]
     public class EvenementController(IEvenementService service) : ControllerBase
     {
         private readonly IEvenementService _service = service;
@@ -40,12 +40,12 @@ namespace GestionSetlistApp.Controllers
             return CreatedAtRoute("GetEvenementAsync", new { evenementId = nouvelEvenement.EvenementId }, nouvelEvenement);
         }
 
-        [HttpPut("{evenementId}")]
-        public async Task<ActionResult> UpdateEvenementAsync(int evenementId, EvenementCreateDTO evenementCreateDTO)
+        [HttpPatch("{evenementId}")]
+        public async Task<ActionResult> PatchEvenementAsync(int evenementId, EvenementPatchDTO evenementPatchDTO)
         {
             try
             {
-                await _service.UpdateEvenementAsync(evenementId, evenementCreateDTO);
+                await _service.PatchEvenementAsync(evenementId, evenementPatchDTO);
                 return NoContent();
             }
             catch (KeyNotFoundException)
@@ -54,12 +54,12 @@ namespace GestionSetlistApp.Controllers
             }
         }
 
-        [HttpPatch("{evenementId}")]
-        public async Task<ActionResult> PatchEvenementAsync(int evenementId, EvenementPatchDTO evenementPatchDTO)
+        [HttpDelete("{evenementId}")]
+        public async Task<ActionResult> DeleteEvenementAsync(int evenementId)
         {
             try
             {
-                await _service.PatchEvenementAsync(evenementId, evenementPatchDTO);
+                await _service.DeleteEvenementAsync(evenementId);
                 return NoContent();
             }
             catch (KeyNotFoundException)

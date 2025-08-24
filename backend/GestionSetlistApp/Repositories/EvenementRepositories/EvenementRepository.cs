@@ -45,5 +45,10 @@ namespace GestionSetlistApp.Repositories.EvenementRepositories
             _dbContext.Evenements.Update(evenement);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task DeleteEvenementAsync(int evenementId)
+        {
+            await _dbContext.Evenements.Where(e => e.EvenementId == evenementId).ExecuteDeleteAsync();
+        }
     }
 }

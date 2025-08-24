@@ -58,6 +58,13 @@ namespace GestionSetlistApp.Repositories.SetlistRepositories
             return await _dbcontext.Membres.FirstOrDefaultAsync(m => m.MembreId == membreId);
         }
 
+        public async Task<int> GetDureeTotaleSetlistAsync(int setlistId)
+        {
+            return await _dbcontext.MorceauSetlist
+                .Where(ms => ms.SetlistId == setlistId)
+                .SumAsync(ms => (int?)ms.Morceau.DureeMorceau) ?? 0;
+        }
+
         public async Task AddSetlistAsync(Setlist setlist)
         {
             await _dbcontext.Setlists.AddAsync(setlist);
@@ -67,28 +74,20 @@ namespace GestionSetlistApp.Repositories.SetlistRepositories
 
         public async Task AddMorceauToSetlistAsync(MorceauSetlist morceauSetlist)
         {
-            try
-            {
-                await _dbcontext.MorceauSetlist.AddAsync(morceauSetlist);
-                await _dbcontext.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                throw new InvalidOperationException("Un enregistrement avec cet ID existe déjà.", ex);
-            }
+            await _dbcontext.MorceauSetlist.AddAsync(morceauSetlist);
+            await _dbcontext.SaveChangesAsync();   
         }
 
         public async Task AddMembreToSetlistAsync(MembreSetlist membreSetlist)
         {
-            try
-            {
-                await _dbcontext.MembreSetlist.AddAsync(membreSetlist);
-                await _dbcontext.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                throw new InvalidOperationException("Un enregistrement avec cet ID existe déjà.", ex);
-            }
+            await _dbcontext.MembreSetlist.AddAsync(membreSetlist);
+            await _dbcontext.SaveChangesAsync();
+        }
+
+        public async Task UpdateSetlistAsync(Setlist setlist)
+        {
+            _dbcontext.Setlists.Update(setlist);
+            await _dbcontext.SaveChangesAsync();
         }
 
         public async Task DeleteMorceauToSetlistAsync(int setlistId, int morceauId)

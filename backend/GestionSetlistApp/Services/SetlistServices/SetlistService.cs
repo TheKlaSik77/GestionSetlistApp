@@ -18,7 +18,7 @@ namespace GestionSetlistApp.Services.SetlistServices
             IEnumerable<SetlistReadDTO> setlistsDTO = setlists.Select(s => new SetlistReadDTO(
                 s.SetlistId,
                 s.NomSetlist,
-                s.MorceauSetlists.Sum(ms => ms.Morceau.DureeMorceau),
+                s.DureeSetlist,
                 s.Evenements.Select(e => new SetlistEvenementReadDTO { EvenementId = e.EvenementId, Nom = e.Nom, Date = e.Date, Lieu = e.Lieu }).ToList(),
                 s.MorceauSetlists.Select(ms => new SetlistMorceauReadDTO { MorceauId = ms.MorceauId, Titre = ms.Morceau.Titre, Artiste = ms.Morceau.Artiste, DureeMorceau = ms.Morceau.DureeMorceau, PositionMorceauDansSetlist = ms.Position }).ToList(),
                 s.MembreSetlist.Select(ms => new SetlistMembreReadDTO
@@ -41,7 +41,7 @@ namespace GestionSetlistApp.Services.SetlistServices
             SetlistReadDTO setlistsDTO = new SetlistReadDTO(
                 setlist.SetlistId,
                 setlist.NomSetlist,
-                setlist.MorceauSetlists.Sum(ms => ms.Morceau.DureeMorceau),
+                setlist.DureeSetlist,
                 setlist.Evenements.Select(e => new SetlistEvenementReadDTO { EvenementId = e.EvenementId, Nom = e.Nom, Date = e.Date, Lieu = e.Lieu }).ToList(),
                 setlist.MorceauSetlists.Select(ms => new SetlistMorceauReadDTO { MorceauId = ms.MorceauId, Titre = ms.Morceau.Titre, Artiste = ms.Morceau.Artiste, DureeMorceau = ms.Morceau.DureeMorceau, PositionMorceauDansSetlist = ms.Position }).ToList(),
                 setlist.MembreSetlist.Select(ms => new SetlistMembreReadDTO
@@ -70,12 +70,13 @@ namespace GestionSetlistApp.Services.SetlistServices
 
         public async Task<MorceauToSetlistReadDTO> GetMorceauToSetlistAsync(int setlistId, int morceauId)
         {
-            var morceauToSetlistDTO = await _repository.GetMorceauToSetlistAsync(setlistId, morceauId) ?? throw new KeyNotFoundException();
+            var morceauSetlist = await _repository.GetMorceauToSetlistAsync(setlistId, morceauId) ?? throw new KeyNotFoundException();
 
             return new MorceauToSetlistReadDTO
             {
-                MorceauId = morceauToSetlistDTO.MorceauId,
-                PositionMorceauDansSetlist = morceauToSetlistDTO.Position
+                SetlistId = morceauSetlist.SetlistId,
+                MorceauId = morceauSetlist.MorceauId,
+                PositionMorceauDansSetlist = morceauSetlist.Position
             };
         }
 
@@ -117,19 +118,24 @@ namespace GestionSetlistApp.Services.SetlistServices
             var setlist = await _repository.GetSetlistAsync(setlistId) ?? throw new KeyNotFoundException();
             var morceau = await _repository.GetMorceauAsync(morceauToSetlistDTO.MorceauId) ?? throw new KeyNotFoundException();
 
-            await _repository.AddMorceauToSetlistAsync(new MorceauSetlist
+            var nouveauSetlistMorceau = new MorceauSetlist
             {
                 SetlistId = setlist.SetlistId,
                 Setlist = setlist,
                 MorceauId = morceauToSetlistDTO.MorceauId,
                 Morceau = morceau,
-                Position = morceauToSetlistDTO.PositionMorceauDansSetlist ?? (await _repository.GetMaxPositionSetlistAsync(setlistId)) ?? 1
-            });
+                Position = morceauToSetlistDTO.PositionMorceauDansSetlist ?? (await _repository.GetMaxPositionSetlistAsync(setlistId) + 1) ?? 1
+            }; 
+
+            await _repository.AddMorceauToSetlistAsync(nouveauSetlistMorceau);
+
+            await UpdateDureeSetlistAsync(setlistId);
 
             return new MorceauToSetlistReadDTO
             {
-                MorceauId = morceauToSetlistDTO.MorceauId,
-                PositionMorceauDansSetlist = morceauToSetlistDTO.PositionMorceauDansSetlist ?? (await _repository.GetMaxPositionSetlistAsync(setlistId)) ?? 1
+                SetlistId = nouveauSetlistMorceau.SetlistId,
+                MorceauId = nouveauSetlistMorceau.MorceauId,
+                PositionMorceauDansSetlist = nouveauSetlistMorceau.Position
             };
         }
 
@@ -150,7 +156,17 @@ namespace GestionSetlistApp.Services.SetlistServices
             {
                 SetlistId = setlistId,
                 MembreId = membreSetlistCreateDTO.MembreId
-            };
+            }; 
+        }
+
+        public async Task UpdateDureeSetlistAsync(int setlistId)
+        {
+            var setlist = await _repository.GetSetlistAsync(setlistId) ?? throw new KeyNotFoundException();
+
+            var total = await _repository.GetDureeTotaleSetlistAsync(setlistId);
+            setlist.DureeSetlist = total;
+
+            await _repository.UpdateSetlistAsync(setlist);
         }
 
         public async Task DeleteMorceauToSetlistAsync(int setlistId, int morceauId)
@@ -160,13 +176,14 @@ namespace GestionSetlistApp.Services.SetlistServices
             {
                 throw new KeyNotFoundException();
             }
-            await _repository.DeleteMorceauToSetlistAsync(setlistId, morceauId);
+            await _repository.DeleteMorceauToSetlistAsync(setlistId, morceauId); 
+            await UpdateDureeSetlistAsync(setlistId);
         }
 
         public async Task DeleteMembreToSetlistAsync(int setlistId, int membreId)
         {
-            var membreToSetlist = await _repository.GetMembreToSetlistAsync(setlistId, membreId) ?? throw new KeyNotFoundException();;
-            
+            var membreToSetlist = await _repository.GetMembreToSetlistAsync(setlistId, membreId) ?? throw new KeyNotFoundException(); ;
+
             await _repository.DeleteMembreToSetlistAsync(setlistId, membreId);
         }
 

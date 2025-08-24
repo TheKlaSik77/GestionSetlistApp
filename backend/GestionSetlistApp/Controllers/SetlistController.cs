@@ -8,13 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace GestionSetlistApp.Controllers
 {
     [ApiController]
-    [Route("/setlist")]
+    [Route("/api/[controller]")]
     public class SetlistController(ISetlistService service) : ControllerBase
     {
         private readonly ISetlistService _service = service;
 
         [HttpGet]
-
         public async Task<ActionResult<IEnumerable<SetlistReadDTO>>> GetAllSetlistsAsync()
         {
             var result = await _service.GetAllAsync();
@@ -52,7 +51,7 @@ namespace GestionSetlistApp.Controllers
         }
 
         [HttpGet("{setlistId}/membre/{membreId}", Name = "GetMembreToSetlistAsync")]
-        public async Task<ActionResult<MembreSetlist>> GetMembreToSetlistAsync(int setlistId, int membreId)
+        public async Task<ActionResult<MembreSetlistReadDTO>> GetMembreToSetlistAsync(int setlistId, int membreId)
         {
             try
             {
@@ -78,16 +77,13 @@ namespace GestionSetlistApp.Controllers
             try
             {
                 var nouveauSetlistMorceau = await _service.AddMorceauToSetlistAsync(setlistId, morceauToSetlistCreateDTO);
-                return CreatedAtRoute("GetMorceauToSetlistAsync", new { setlistId, morceauId = nouveauSetlistMorceau.MorceauId }, nouveauSetlistMorceau);
+                return CreatedAtRoute("GetMorceauToSetlistAsync", new { setlistId = nouveauSetlistMorceau.SetlistId, morceauId = nouveauSetlistMorceau.MorceauId }, nouveauSetlistMorceau);
             }
             catch (KeyNotFoundException)
             {
                 return NotFound("Morceau ou Setlist Introuvable");
             }
-            catch (InvalidOperationException)
-            {
-                return Conflict("Cette Association existe déjà");
-            }
+            
 
         }
 
@@ -97,17 +93,13 @@ namespace GestionSetlistApp.Controllers
             try
             {
                 var nouveauMembreSetlist = await _service.AddMembreToSetlistAsync(setlistId, membreSetlistCreateDTO);
-                return CreatedAtRoute("GetMembreToSetlistAsync", new { setlistId, membreId = nouveauMembreSetlist.MembreId }, nouveauMembreSetlist);
-
+                return CreatedAtRoute("GetMembreToSetlistAsync" , new {setlistId = nouveauMembreSetlist.SetlistId, membreId = nouveauMembreSetlist.MembreId},nouveauMembreSetlist);
             }
             catch (KeyNotFoundException)
             {
                 return NotFound("Setlist ou Membre Introuvable");
             }
-            catch (InvalidOperationException)
-            {
-                return Conflict("Cette Association existe déjà");
-            }
+            
         }
 
 

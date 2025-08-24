@@ -1,0 +1,12 @@
+besoins :
+
+
+- GetAll() -> Dans la liste des evenements -> Fait, triés par date à droite. 
+- Ajouter une SetlistId à un evenement. -> Fait
+- Clique sur une case, AddEvenement() avec Nom, date, lieu, setlist -> Fait
+- Sur la case, Modifier (Patch) - Croix pour supprimer (Delete). -> Fait
+
+
+        
+
+- GetEvenementParMoisAnnee -> FAIRE PAR QUERY PARAMS (Cases dans le Calendrier) | Plus tard |

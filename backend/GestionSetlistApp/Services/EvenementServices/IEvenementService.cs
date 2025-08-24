@@ -11,5 +11,6 @@ namespace GestionSetlistApp.Services.EvenementServices
         public Task<EvenementReadDTO> AddEvenementAsync(EvenementCreateDTO evenementCreateDTO);
         public Task UpdateEvenementAsync(int evenementId, EvenementCreateDTO evenementCreateDTO);
         public Task PatchEvenementAsync(int evenementId, EvenementPatchDTO evenementPatchDTO);
+        public Task DeleteEvenementAsync(int evenementId);
     }
 }

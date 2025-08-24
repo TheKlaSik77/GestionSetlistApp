@@ -13,8 +13,10 @@ namespace GestionSetlistApp.Repositories.SetlistRepositories
         public Task<MorceauSetlist?> GetMorceauToSetlistAsync(int setlistId, int morceauId);
         public Task<int?> GetMaxPositionSetlistAsync(int setlistId);
         public Task<Membre?> GetMembreAsync(int membreId);
+        public Task<int> GetDureeTotaleSetlistAsync(int setlistId);
         public Task AddMorceauToSetlistAsync(MorceauSetlist morceauSetlist);
         public Task AddMembreToSetlistAsync(MembreSetlist membreSetlist);
+        public Task UpdateSetlistAsync(Setlist setlist);
         public Task DeleteMorceauToSetlistAsync(int setlistId, int morceauId);
         public Task DeleteMembreToSetlistAsync(int setlistId, int membreId);
         public Task DeleteSetlistAsync(int setlistId);
