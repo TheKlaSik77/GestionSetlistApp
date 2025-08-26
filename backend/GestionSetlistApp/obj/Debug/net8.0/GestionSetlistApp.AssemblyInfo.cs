@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GestionSetlistApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+120cf2b95d0d16da0058c243c0daedaad88fa03e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+25a6da6857c350e613d01ae3397555b022b1b536")]
 [assembly: System.Reflection.AssemblyProductAttribute("GestionSetlistApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GestionSetlistApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

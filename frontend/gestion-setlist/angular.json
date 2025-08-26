@@ -27,6 +27,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "output": "/assets/"
               }
             ],
             "styles": [
@@ -83,6 +88,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               {
+             
                 "glob": "**/*",
                 "input": "public"
               }
