@@ -1,0 +1,22 @@
+<h1>Informations Morceaux</h1>
+@if(!morceau){
+<p class="messageErreur">Morceau Inconnu (Intégrer retour à la liste)</p>
+} @else {
+<article>
+    <section class="infosMorceau">
+        <p>Titre: {{ morceau.titre }}</p>
+        <p>Artiste: {{ morceau.artiste }}</p>
+        <p>Album: {{ morceau.album }}</p>
+        <p>Durée Morceau: {{ morceau.dureeMorceau }}</p>
+    </section>
+    <section class="playerYoutube">
+        @if (!lienYoutubeSanitised){
+        <p>Pas de lienYoutube</p>
+        } @else {
+        <iframe [src]="lienYoutubeSanitised" title="YouTube video" frameborder="0" allowfullscreen>
+        </iframe>
+
+        }
+    </section>
+</article>
+}

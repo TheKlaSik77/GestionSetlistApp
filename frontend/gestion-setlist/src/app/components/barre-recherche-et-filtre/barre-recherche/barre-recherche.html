@@ -1,0 +1,4 @@
+<div class="barre-recherche">
+    <img src="assets/icone/loupe.png" alt="" />
+    <input #champ type="text" placeholder="Rechercher un {{ typePage() }}" (keyup.enter)="renvoyerRecherche(champ.value); champ.value=''"/>
+</div>

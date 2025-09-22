@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+html,body {
+    height: 100%; /* prend toute la hauteur de la fenêtre */
+    margin: 0; /* retire les marges par défaut */
+    padding: 0;
+}
+
+body {
+    backdrop-filter: blur(4px);
+    background-image: url('/assets/img/Background.svg');
+    background-size: cover; /* l'image couvre toute la page */
+    background-repeat: no-repeat; /* pas de répétition */
+    background-position: center; /* centré */
+    background-attachment: fixed;
+}

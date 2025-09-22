@@ -1,0 +1,56 @@
+// <div class="morceauItem">
+//     <p>
+//         {{ morceau().titre }} | {{ morceau().artiste}}
+//     </p>
+//     <img src="assets/icone/plus.png" alt="ajoutSetlist" />
+//     <img src="assets/icone/croix.png" alt="supprimerMorceau" />
+// </div>
+
+.morceauItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    width: 900px;
+    height: 70px;
+    gap: 20px;
+    align-items: center;
+    padding: 0px 20px;
+    background-color: #5089c594;
+}
+
+.morceauItem .info {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    height: 50px;
+}
+
+.morceauItem .info .titre {
+    font-size: 30px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    margin: 0;
+}
+
+.morceauItem .info .artiste {
+    font-size: 22px;
+    font-weight: 400;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    margin: 0;
+    line-height: 35px;
+}
+
+.morceauItem .icones {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    height: 50px;
+}
+
+.morceauItem .icones img {
+    height: 50px;
+}

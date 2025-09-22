@@ -1,0 +1,102 @@
+// <div class="filtre">
+//     <div class="filtre-selectionne" (click)="changerAffichageMenu()">
+//         <span class="filtreActuel">
+//             {{ filtreActuel }}
+//         </span>
+//         <img src="assets/icone/fleche-vers-le-bas.png" alt="fleche" />
+//     </div>
+//     @if (menuOuvert === true){
+//     <div class="div-cache">
+//         <ul>
+//             @for (option of options; track $index){
+//             <li>
+//                 {{ option }}
+//             </li>
+//             }
+//         </ul>
+//     </div>
+//     }
+// </div>
+
+.filtre {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    margin-left: 20px;
+    position: relative;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.filtre .filtre-selectionne {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 50px;
+    padding: 0px 10px;
+    height: 30px;
+    border: #818181 solid 1px;
+    background-color: #e3f2fd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+.filtre .filtre-selectionne .filtreActuel {
+    font-size: 18px;
+    color: #2c2c2c;
+    margin-right: 20px;
+}
+
+.filtre img {
+    height: 10px;
+    margin-right: 5px;
+}
+
+.filtre .div-cache {
+    position: absolute;
+    width: auto;
+    min-width: 100%;
+    white-space: nowrap;
+    top: 100%;
+    z-index: 10; // Passe au premier plan forcé
+    border: 1px solid #818181;
+    border-radius: 10px;
+    background-color: #e3f2fd;
+    margin-top: 3px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filtre .div-cache ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.filtre .div-cache ul li button {
+    all: unset; /* reset styles natifs du bouton */
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    color: #2c2c2c;
+    font-size: 15px;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-size: 17px;
+
+}
+
+.filtre .div-cache ul li:first-child button {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.filtre .div-cache ul li:last-child button {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.filtre .div-cache ul li button:hover {
+    background-color: #bbdefb;
+}
+
+.filtre .div-cache ul li:last-child button {
+    border-bottom: none;
+}

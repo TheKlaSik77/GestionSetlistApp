@@ -1,0 +1,22 @@
+<div class="filtre">
+    <button class="filtre-selectionne" (click)="changerAffichageMenu()">
+        <span class="filtreActuel">
+            {{ filtreActuel }}
+        </span>
+        <img src="assets/icone/fleche-vers-le-bas.png" alt="ouvrir le menu" />
+    </button>
+    @if (menuOuvert === true){
+    <div class="div-cache">
+        <ul>
+            @for (filtre of filtresDisponibles; track $index){
+            <li>
+                <button (click)="changerFiltreActuel(filtre)">
+                    {{ filtre }}
+                </button>
+            </li>
+
+            }
+        </ul>
+    </div>
+    }
+</div>

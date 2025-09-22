@@ -1,0 +1,18 @@
+<h1>Liste des morceaux</h1>
+
+<app-barre-recherche-et-filtre [typePage]="typePage"></app-barre-recherche-et-filtre>
+
+<div class="body">
+    <button class="ajouterMorceau" routerLink="/morceaux/ajouterMorceau">
+        <img src="assets/icone/plus.png" alt="plus" />
+        <span> Ajouter un nouveau morceau </span>
+    </button>
+
+    <ul class="listeMorceaux">
+        @for (morceauAAfficher of listeMorceaux; track morceauAAfficher.morceauId){
+        <li>
+            <app-morceau-item [morceau]="morceauAAfficher"></app-morceau-item>
+        </li>
+        }
+    </ul>
+</div>

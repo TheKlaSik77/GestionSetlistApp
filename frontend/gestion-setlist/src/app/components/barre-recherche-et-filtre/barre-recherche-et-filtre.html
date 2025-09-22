@@ -1,0 +1,4 @@
+<section class="barre-recherche-et-filtre">
+    <app-barre-recherche class="barre-recherche" [typePage]="typePage()" (recherche)="appliquerRecherche($event)"></app-barre-recherche>
+    <app-filtre class="filtre" [typePage]="typePage()" (majFiltre)="appliquerFiltre($event)"></app-filtre>
+</section>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CompTest } from './comp-test';
+import { BarreRechercheEtFiltre } from './barre-recherche-et-filtre';
 
-describe('CompTest', () => {
-  let component: CompTest;
-  let fixture: ComponentFixture<CompTest>;
+describe('BarreRechercheEtFiltre', () => {
+  let component: BarreRechercheEtFiltre;
+  let fixture: ComponentFixture<BarreRechercheEtFiltre>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CompTest]
+      imports: [BarreRechercheEtFiltre]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CompTest);
+    fixture = TestBed.createComponent(BarreRechercheEtFiltre);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
